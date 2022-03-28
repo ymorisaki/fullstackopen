@@ -10,7 +10,6 @@ const App = () => {
     { name: 'Mary Poppendieck', tel: '39-23-6423122', id: 4 }
   ])
   const [filter, setFilter] = useState('')
-  const [filterList, setFilterList] = useState(persons)
   const [filterFlag, setFilterFlag] = useState(false)
 
   return (
@@ -25,10 +24,8 @@ const App = () => {
 
       <h2>Filter</h2>
       <Filter
-        persons={persons}
         filter={filter}
         setFilter={setFilter}
-        setFilterList={setFilterList}
         setFilterFlag={setFilterFlag}
       />
 
@@ -38,7 +35,8 @@ const App = () => {
           persons.map(person => <li key={person.id}>{person.name} {person.tel}</li>)
         }
         {filterFlag &&
-          filterList.map(person => <li key={person.id}>{person.name} {person.tel}</li>)
+          persons.filter(person => person.name.includes(filter))
+            .map(person => <li key={person.id}>{person.name} {person.tel}</li>)
         }
       </ul>
     </>

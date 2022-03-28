@@ -1,10 +1,8 @@
 import React from 'react'
 
 const Filter = ({
-  persons,
   filter,
   setFilter,
-  setFilterList,
   setFilterFlag
 }) => {
 
@@ -12,14 +10,12 @@ const Filter = ({
     event.preventDefault()
 
     if (filter === '') {
-      setFilterList(persons)
       setFilter('')
       setFilterFlag(false)
       return
     }
 
     setFilterFlag(true)
-    setFilterList(persons.filter(person => person.name.includes(filter)))
   }
 
   const handleChange = (event) => setFilter(event.target.value)
