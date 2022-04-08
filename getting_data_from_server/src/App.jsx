@@ -66,9 +66,7 @@ const App = () => {
 
       {isFilterListRender &&
         <ul>
-          {filterCountries.map(country => (
-            <ListItem key={country.name.common} country={country} />
-          ))}
+          {filterCountries.map(country => <ListItem key={country.name.common} country={country} />)}
         </ul>
       }
 
