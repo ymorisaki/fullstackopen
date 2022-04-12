@@ -1,14 +1,12 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 const Form = (
   {
     persons,
     setPersons,
-    newName,
-    setNewName,
-    newNumber,
-    setNewNumber
   }) => {
+  const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
 
   const handleSubmit = (e) => {
     e.preventDefault()

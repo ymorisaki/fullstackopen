@@ -10,20 +10,11 @@ const App = () => {
     name: 'Arto Hellas',
     number: '02-3333-3333'
   }])
-  const [newName, setNewName] = useState('')
-  const [newNumber, setNewNumber] = useState('')
 
   return (
     <>
       <h1>PhoneBook</h1>
-      <Form
-        persons={persons}
-        setPersons={setPersons}
-        newName={newName}
-        setNewName={setNewName}
-        newNumber={newNumber}
-        setNewNumber={setNewNumber}
-      />
+      <Form persons={persons} setPersons={setPersons} />
 
       <h2>Numbers</h2>
 
