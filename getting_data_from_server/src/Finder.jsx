@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Find = ({setText}) => {
+const Finder = ({setText}) => {
   const handleChange = (e) => {
     setText(e.target.value)
   }
@@ -13,4 +13,4 @@ const Find = ({setText}) => {
   )
 }
 
-export default Find
+export default Finder
