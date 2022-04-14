@@ -22,7 +22,8 @@ const Form = (
 
     setPersons([...persons, {
       name: newName,
-      number: newNumber
+      number: newNumber,
+      id: persons.length + 1
     }])
     setNewName('')
     setNewNumber('')
@@ -30,16 +31,12 @@ const Form = (
 
   const handleNameChange = (e) => {
     e.preventDefault()
-
     setNewName(e.target.value)
-    console.log(newName)
   }
 
   const handleNumberChange = (e) => {
     e.preventDefault()
-
     setNewNumber(e.target.value)
-    console.log(newNumber)
   }
 
   return (
