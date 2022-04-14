@@ -23,7 +23,7 @@ const Form = (
     setPersons([...persons, {
       name: newName,
       number: newNumber,
-      id: persons.length + 1
+      id: newName
     }])
     setNewName('')
     setNewNumber('')
