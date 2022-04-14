@@ -20,14 +20,20 @@ const Form = (
       return
     }
 
-    if (persons.some(person => person.name === newName)) {
-      alert('同名の人物が存在します。')
-      return
+    const sameName = persons.find(person => person.name === newName)
+
+    if (sameName) {
+      if (window.confirm(`${sameName.name}の電話番号を変更しますか？`)) {
+        const {data} = await axios.put(`http://localhost:3001/persons/${sameName.id}`, newPerson)
+        setPersons(persons.map(person => person.id === data.id ? data : person))
+      } else {
+        return
+      }
+    } else {
+      const {data} = await axios.post('http://localhost:3001/persons', newPerson)
+      setPersons([...persons, data])
     }
 
-    const {data} = await axios.post('http://localhost:3001/persons', newPerson)
-
-    setPersons([...persons, data])
     setNewName('')
     setNewNumber('')
   }
