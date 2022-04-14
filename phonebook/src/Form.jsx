@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import axios from 'axios'
 
 const Form = (
   {
@@ -7,8 +8,12 @@ const Form = (
   }) => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const newPerson = {
+    name: newName,
+    number: newNumber,
+  }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     if (newName === '' || newNumber === '') {
@@ -20,11 +25,9 @@ const Form = (
       return
     }
 
-    setPersons([...persons, {
-      name: newName,
-      number: newNumber,
-      id: newName
-    }])
+    const {data} = await axios.post('http://localhost:3001/persons', newPerson)
+
+    setPersons([...persons, data])
     setNewName('')
     setNewNumber('')
   }

@@ -1,14 +1,27 @@
 import React from 'react'
+import Person from './Person'
 
-const Persons = ({persons, filter}) => {
+const Persons = ({persons, setPersons, filter}) => {
   const filterPersons = persons.filter(person => person.name.toLowerCase().includes(filter))
-
-  const generator = (list) => list.map(item => <li key={item.name}>Name: {item.name} / Number: {item.number}</li>) 
 
   return (
     <ul>
-      {filter === '' && generator(persons)}
-      {filter !== '' && generator(filterPersons)}
+      {filter === '' && persons.map(person => (
+        <Person
+          key={person.name}
+          person={person}
+          persons={persons}
+          setPersons={setPersons}
+        />
+      ))}
+      {filter !== '' && filterPersons.map(person => (
+        <Person
+          key={person.name}
+          person={person}
+          persons={persons}
+          setPersons={setPersons}
+        />
+      ))}
     </ul>
   )
 }
