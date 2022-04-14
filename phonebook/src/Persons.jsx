@@ -3,10 +3,12 @@ import React from 'react'
 const Persons = ({persons, filter}) => {
   const filterPersons = persons.filter(person => person.name.toLowerCase().includes(filter))
 
+  const generator = (list) => list.map(item => <li key={item.name}>Name: {item.name} / Number: {item.number}</li>) 
+
   return (
     <ul>
-      {filter === '' && persons.map(person => <li key={person.name}>Name: {person.name} / Number: {person.number}</li>)}
-      {filter !== '' && filterPersons.map(person => <li key={person.name}>Name: {person.name} / Number: {person.number}</li>)}
+      {filter === '' && generator(persons)}
+      {filter !== '' && generator(filterPersons)}
     </ul>
   )
 }
