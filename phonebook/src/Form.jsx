@@ -48,14 +48,13 @@ const Form = (
         <label>Name:
         <input type="text" value={newName} onChange={handleNameChange} />
         </label>
-        <button>save</button>
       </div>
       <div>
         <label>Number:
         <input type="tel" value={newNumber} onChange={handleNumberChange} />
         </label>
-        <button>save</button>
       </div>
+      <button>add</button>
     </form>
   )
 }
