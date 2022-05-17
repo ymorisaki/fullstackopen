@@ -5,6 +5,7 @@ const Form = (
   {
     persons,
     setPersons,
+    setMessage,
   }) => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
@@ -24,14 +25,25 @@ const Form = (
 
     if (sameName) {
       if (window.confirm(`${sameName.name}の電話番号を変更しますか？`)) {
-        const {data} = await axios.put(`http://localhost:3001/persons/${sameName.id}`, newPerson)
-        setPersons(persons.map(person => person.id === data.id ? data : person))
+        try {
+          const {data} = await axios.put(`http://localhost:3001/persons/${sameName.id}`, newPerson)
+          setPersons(persons.map(person => person.id === data.id ? data : person))
+        } catch (err) {
+          setMessage({visible: true, error: true})
+          setTimeout(() => {
+            setMessage({visible: false, error: true})
+          }, 2000)
+        }
       } else {
         return
       }
     } else {
       const {data} = await axios.post('http://localhost:3001/persons', newPerson)
       setPersons([...persons, data])
+      setMessage({visible: true, error: false})
+      setTimeout(() => {
+        setMessage({visible: false, error: false})
+      }, 2000)
     }
 
     setNewName('')
