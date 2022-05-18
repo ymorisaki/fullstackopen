@@ -52,6 +52,7 @@ const App = () => {
   useEffect(() =>{
     (async () => {
       const data = await noteService.getAll()
+      console.log(data)
       setNotes(data.data)
     })()
   }, [])
