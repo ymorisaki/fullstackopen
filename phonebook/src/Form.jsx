@@ -26,7 +26,7 @@ const Form = (
     if (sameName) {
       if (window.confirm(`${sameName.name}の電話番号を変更しますか？`)) {
         try {
-          const {data} = await axios.put(`http://localhost:3001/persons/${sameName.id}`, newPerson)
+          const {data} = await axios.put(`/api/persons/${sameName.id}`, newPerson)
           setPersons(persons.map(person => person.id === data.id ? data : person))
         } catch (err) {
           setMessage({visible: true, error: true})
@@ -38,8 +38,9 @@ const Form = (
         return
       }
     } else {
-      const {data} = await axios.post('http://localhost:3001/persons', newPerson)
-      setPersons([...persons, data])
+      const {data} = await axios.post('/api/persons', newPerson)
+      console.log(persons, data)
+      setPersons(data)
       setMessage({visible: true, error: false})
       setTimeout(() => {
         setMessage({visible: false, error: false})

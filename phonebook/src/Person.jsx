@@ -4,7 +4,7 @@ import axios from 'axios'
 const Person = ({person, persons, setPersons}) => {
   const handleClick = async () => {
     if (window.confirm(`Delete ${person.name}?`)) {
-      await axios.delete(`http://localhost:3001/persons/${person.id}`)
+      await axios.delete(`/api/persons/${person.id}`)
       setPersons(persons.filter(deleted => deleted.id !== person.id))
     }
   }
