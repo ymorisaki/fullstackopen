@@ -39,8 +39,7 @@ const Form = (
       }
     } else {
       const {data} = await axios.post('/api/persons', newPerson)
-      console.log(persons, data)
-      setPersons(data)
+      setPersons(persons.concat([data]))
       setMessage({visible: true, error: false})
       setTimeout(() => {
         setMessage({visible: false, error: false})
