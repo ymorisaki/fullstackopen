@@ -41,7 +41,6 @@ const App = () => {
     try {
       const note = notes.find(n => n.id === id)
       const changeNote = {...note, important: !note.important}
-
       const response = await noteService.update(id, changeNote)
       setNotes(notes.map(note => note.id !== id ? note: response.data))
     } catch (error) {

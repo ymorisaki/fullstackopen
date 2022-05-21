@@ -1,0 +1,9 @@
+PUT http://localhost:3001/api/notes/628878b7e3adca59413f9318
+Content-Type: application/json
+
+{
+  "content": "hoge",
+  "date": "2022-05-21T05:25:42.929Z",
+  "important": false,
+  "id": "628878b7e3adca59413f9318"
+}
