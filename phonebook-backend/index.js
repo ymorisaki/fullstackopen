@@ -2,7 +2,6 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const Person = require('./model/person');
-const { response } = require('express');
 const app = express()
 const PORT = process.env.PORT || 3001
 
@@ -16,9 +15,20 @@ const requestLogger = (request, response, next) => {
 const unknownEndPoint = (request, response) => {
   response.status(404).send({error: 'unknown endpoint'})
 }
+const errorHandler = (error, request, response, next) => {
+  console.log(error.message, error.name)
+
+  if (error.name === 'CastError') {
+    response.status(400).send({
+      error: 'malformated id'
+    })
+  }
+
+  next(error)
+}
 
 app.use(express.json())
-app.use(morgan(''))
+// app.use(morgan(''))
 app.use(cors())
 app.use(express.static('build'))
 app.use(requestLogger)
@@ -39,24 +49,26 @@ app.post('/api/persons', (request, response) => {
     })
   }
 
-  // if (
-  //   persons.some(person => person.name === person.name)
-  // ) {
-  //   return response.status(400).json({
-  //     error: '同名のユーザーが既に登録されています'
-  //   })
-  // }
-
   person.save().then(savedPerson => {
     response.json(savedPerson)
   })
 })
 
-app.delete('/api/persons/:id', (request, response) => {
-  const id = request.params.id
+app.put('/api/persons/:id', (request, response, next) => {
+  const person = {
+    number: request.body.number
+  }
 
-  persons = persons.filter(person => person.id !== id)
-  response.status(204).end()
+  Person.findByIdAndUpdate(request.params.id, person, {new: true})
+    .then(updatedPerson => {
+      response.json(updatedPerson)
+    }).catch(error => next(error))
+})
+
+app.delete('/api/persons/:id', (request, response) => {
+  Person.findByIdAndRemove(request.params.id).then(result => {
+    response.status(204).end()
+  }).catch(error => next(error))
 })
 
 app.get('/info', (request, response) => {
@@ -74,13 +86,14 @@ app.get('/api/persons', (request, response) => {
   })
 })
 
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response, next) => {
   Person.findById(request.params.id).then(person => {
     response.json(person)
-  })
+  }).catch(error => next(error))
 })
 
 app.use(unknownEndPoint)
+app.use(errorHandler)
 
 app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}`)
