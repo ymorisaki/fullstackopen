@@ -21,20 +21,18 @@ const App = () => {
       content: newNote,
       date: new Date().toISOString(),
       important: Math.random() > 0.5,
-      id: notes.length + 1,
     }
 
     const response = await noteService.create(newObject)
+    newObject.id = response.data.id
     setNotes(notes.concat(newObject))
     setNewNote('')
-    console.log(response)
   }
 
   const notesToShow = showAll ? notes : notes.filter(note => note.important === true)
 
   const handleChange = (event) => {
     setNewNote(event.target.value)
-    console.log(event.target.value, newNote)
   }
 
   const toggleImportant = async (id) => {
@@ -51,7 +49,6 @@ const App = () => {
   useEffect(() =>{
     (async () => {
       const data = await noteService.getAll()
-      console.log(data)
       setNotes(data.data)
     })()
   }, [])
@@ -66,7 +63,7 @@ const App = () => {
 
       <form onSubmit={addNote}>
         <input type="text" onChange={handleChange} value={newNote} placeholder="..." />
-        <button type="button">save</button>
+        <button type="submit">save</button>
       </form>
     </div>
   )
