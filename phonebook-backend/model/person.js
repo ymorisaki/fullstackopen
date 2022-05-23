@@ -1,5 +1,6 @@
-const mongoose = require('mongoose');
-const dotenv = require('dotenv').config();
+const mongoose = require('mongoose')
+// eslint-disable-next-line no-unused-vars
+const dotenv = require('dotenv').config()
 const url = process.env.MONGODB_URI
 const personSchema = new mongoose.Schema({
   name: {
@@ -21,10 +22,10 @@ const personSchema = new mongoose.Schema({
 
 console.log(`connecting ${url}`)
 
-mongoose.connect(url).then(result => {
-  console.log(`connected to MongoDB`)
-}).catch(err => {
-  console.log(`error connecting to MongoDB: ${g6CwCR9xIASus1x1}`)
+mongoose.connect(url).then(() => {
+  console.log('connected to MongoDB')
+}).catch(() => {
+  console.log(`error connecting to MongoDB: ${url}`)
 })
 
 personSchema.set('toJSON', {

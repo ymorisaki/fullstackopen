@@ -1,7 +1,8 @@
-const express = require('express');
-const morgan = require('morgan');
-const cors = require('cors');
-const Person = require('./model/person');
+const express = require('express')
+// eslint-disable-next-line no-unused-vars
+const morgan = require('morgan')
+const cors = require('cors')
+const Person = require('./model/person')
 const app = express()
 const PORT = process.env.PORT || 3001
 
@@ -13,7 +14,7 @@ const requestLogger = (request, response, next) => {
   next()
 }
 const unknownEndPoint = (request, response) => {
-  response.status(404).send({error: 'unknown endpoint'})
+  response.status(404).send({ error: 'unknown endpoint' })
 }
 const errorHandler = (error, request, response, next) => {
   console.log(error.message, error.name)
@@ -39,7 +40,7 @@ app.use(express.static('build'))
 app.use(requestLogger)
 
 app.post('/api/persons', (request, response, next) => {
-  const {body} = request
+  const { body } = request
   const person = new Person({
     name: body.name,
     number: body.number,
@@ -64,14 +65,14 @@ app.put('/api/persons/:id', (request, response, next) => {
     number: request.body.number
   }
 
-  Person.findByIdAndUpdate(request.params.id, person, {new: true, runValidators: true, context: 'query'})
+  Person.findByIdAndUpdate(request.params.id, person, { new: true, runValidators: true, context: 'query' })
     .then(updatedPerson => {
       response.json(updatedPerson)
     }).catch(error => next(error))
 })
 
-app.delete('/api/persons/:id', (request, response) => {
-  Person.findByIdAndRemove(request.params.id).then(result => {
+app.delete('/api/persons/:id', (request, response, next) => {
+  Person.findByIdAndRemove(request.params.id).then(() => {
     response.status(204).end()
   }).catch(error => next(error))
 })
