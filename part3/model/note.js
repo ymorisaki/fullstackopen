@@ -2,8 +2,15 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
 const url = process.env.MONGODB_URI
 const noteSchema = new mongoose.Schema({
-  content: String,
-  date: Date,
+  content: {
+    type: String,
+    minLength: 5,
+    required: true,
+  },
+  date: {
+    type: Date,
+    required: true,
+  },
   important: Boolean,
 })
 
