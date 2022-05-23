@@ -10,7 +10,7 @@ import axios from 'axios'
 const App = () => {
   const [persons, setPersons] = useState([])
   const [filter, setFilter] = useState('')
-  const [message, setMessage] = useState({visible: false, error: false})
+  const [message, setMessage] = useState({visible: false, error: false, valid: true})
 
   useEffect(() => {
     (async () => {

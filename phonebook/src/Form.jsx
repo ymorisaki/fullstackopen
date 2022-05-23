@@ -29,21 +29,31 @@ const Form = (
           const {data} = await axios.put(`/api/persons/${sameName.id}`, newPerson)
           setPersons(persons.map(person => person.id === data.id ? data : person))
         } catch (err) {
-          setMessage({visible: true, error: true})
+          console.log(err.response)
+          setMessage({visible: true, error: true, valid: true})
           setTimeout(() => {
-            setMessage({visible: false, error: true})
+            setMessage({visible: false, error: true, valid: true})
           }, 2000)
+          return
         }
       } else {
         return
       }
     } else {
-      const {data} = await axios.post('/api/persons', newPerson)
-      setPersons(persons.concat([data]))
-      setMessage({visible: true, error: false})
-      setTimeout(() => {
-        setMessage({visible: false, error: false})
-      }, 2000)
+      try {
+        const {data} = await axios.post('/api/persons', newPerson)
+        setPersons(persons.concat([data]))
+        setMessage({visible: true, error: false, valid: true})
+        setTimeout(() => {
+          setMessage({visible: false, error: false, valid: true})
+        }, 2000)
+      } catch (error) {
+        setMessage({visible: true, error: true, valid: false})
+        setTimeout(() => {
+          setMessage({visible: false, error: false, valid: true})
+        }, 5000)
+        return
+      }
     }
 
     setNewName('')

@@ -23,6 +23,11 @@ const errorHandler = (error, request, response, next) => {
       error: 'malformated id'
     })
   }
+  if (error.name === 'ValidationError') {
+    response.status(400).send({
+      error: 'validation error'
+    })
+  }
 
   next(error)
 }
@@ -33,7 +38,7 @@ app.use(cors())
 app.use(express.static('build'))
 app.use(requestLogger)
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
   const {body} = request
   const person = new Person({
     name: body.name,
@@ -51,7 +56,7 @@ app.post('/api/persons', (request, response) => {
 
   person.save().then(savedPerson => {
     response.json(savedPerson)
-  })
+  }).catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
@@ -59,7 +64,7 @@ app.put('/api/persons/:id', (request, response, next) => {
     number: request.body.number
   }
 
-  Person.findByIdAndUpdate(request.params.id, person, {new: true})
+  Person.findByIdAndUpdate(request.params.id, person, {new: true, runValidators: true, context: 'query'})
     .then(updatedPerson => {
       response.json(updatedPerson)
     }).catch(error => next(error))
