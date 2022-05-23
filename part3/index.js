@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require('express')
 const cors = require('cors')
 const Note = require('./model/note')
 const app = express()
@@ -13,7 +13,7 @@ const requestLogger = (request, response, next) => {
 }
 const unknownEndPoint = (request, response) => {
   console.log('unknown')
-  response.status(404).send({error: 'unknown endpoint'})
+  response.status(404).send({ error: 'unknown endpoint' })
 }
 const errorHandler = (error, request, response, next) => {
   console.error(error.message)
@@ -51,10 +51,10 @@ app.get('/api/notes/:id', (request, response, next) => {
 })
 
 app.post('/api/notes', (request, response, next) => {
-  const {body} = request
+  const { body } = request
 
   if (body.content === undefined) {
-    return response.status(400).json({error: 'content missing'})
+    return response.status(400).json({ error: 'content missing' })
   }
 
   const note = new Note({
@@ -69,11 +69,11 @@ app.post('/api/notes', (request, response, next) => {
 })
 
 app.put('/api/notes/:id', (request, response, next) => {
-  const {content, important} = request.body
+  const { content, important } = request.body
 
   Note.findByIdAndUpdate(
     request.params.id,
-    {content, important},
+    { content, important },
     {
       new: true,
       runValidators: true,
@@ -85,7 +85,7 @@ app.put('/api/notes/:id', (request, response, next) => {
 })
 
 app.delete('/api/notes/:id', (request, response, next) => {
-  Note.findByIdAndRemove(request.params.id).then(result => {
+  Note.findByIdAndRemove(request.params.id).then(() => {
     response.status(204).end()
   }).catch(error => next(error))
 })
