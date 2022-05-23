@@ -1,7 +1,4 @@
 const mongoose = require('mongoose')
-// eslint-disable-next-line no-unused-vars
-const dotenv = require('dotenv').config()
-const url = process.env.MONGODB_URI
 const noteSchema = new mongoose.Schema({
   content: {
     type: String,
@@ -13,14 +10,6 @@ const noteSchema = new mongoose.Schema({
     required: true,
   },
   important: Boolean,
-})
-
-console.log(`connecting to ${url}`)
-
-mongoose.connect(url).then(() => {
-  console.log('connected to MongoDB')
-}).catch(err => {
-  console.log(`error connecting to MongoDB: ${err.message}`)
 })
 
 noteSchema.set('toJSON', {
