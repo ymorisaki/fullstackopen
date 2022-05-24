@@ -7,17 +7,17 @@ notesRounter.get('/', async (request, response) => {
   response.json(notes)
 })
 
-notesRounter.get('/:id', (request, response, next) => {
-  Note.findById(request.params.id).then(note => {
-    if (note) {
-      response.json(note)
-    } else {
-      response.status(404).end()
-    }
-  }).catch(error => next(error))
+notesRounter.get('/:id', async (request, response) => {
+  const note = await Note.findById(request.params.id)
+
+  if (note) {
+    response.json(note)
+  } else {
+    response.status(404).end()
+  }
 })
 
-notesRounter.post('/', (request, response, next) => {
+notesRounter.post('/', async (request, response) => {
   const { body } = request
 
   if (body.content === undefined) {
@@ -30,9 +30,9 @@ notesRounter.post('/', (request, response, next) => {
     date: new Date(),
   })
 
-  note.save().then(savedNote => {
-    response.json(savedNote)
-  }).catch(error => next(error))
+  const savedNote = await note.save()
+
+  response.status(201).json(savedNote)
 })
 
 notesRounter.put('/:id', (request, response, next) => {
@@ -51,10 +51,9 @@ notesRounter.put('/:id', (request, response, next) => {
   }).catch(error => next(error))
 })
 
-notesRounter.delete('/:id', (request, response, next) => {
-  Note.findByIdAndRemove(request.params.id).then(() => {
-    response.status(204).end()
-  }).catch(error => next(error))
+notesRounter.delete('/:id', async (request, response) => {
+  await Note.findByIdAndRemove(request.params.id)
+  response.status(204).end()
 })
 
 module.exports = notesRounter
