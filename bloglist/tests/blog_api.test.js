@@ -15,53 +15,57 @@ beforeEach(async () => {
   await Promise.all(promisies)
 })
 
-test('getのレスポンステスト', async () => {
-  const response = await api
-    .get('/api/blogs')
-    .expect(200)
-    .expect('Content-Type', /application\/json/)
+describe('getテスト', () => {
+  test('意図したレスポンスステータスとContent-Typeを返すか', async () => {
+    const response = await api
+      .get('/api/blogs')
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
 
-  expect(response.body).toHaveLength(helper.initialBlogs.length)
-})
+    expect(response.body).toHaveLength(helper.initialBlogs.length)
+  })
+});
 
-test('正しくPOSTできているか', async () => {
-  const newBlog = {
-    title: 'post test New Blog',
-    author: 'yuji',
-    url: 'http://localhost',
-    likes: 3,
-  }
+describe('postテスト', () => {
+  test('正しくPOSTできているか', async () => {
+    const newBlog = {
+      title: 'post test New Blog',
+      author: 'yuji',
+      url: 'http://localhost',
+      likes: 3,
+    }
 
-  await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(201)
-    .expect('Content-Type', /application\/json/)
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
 
-  const afterBlogs = await helper.blogsInDb()
-  const title = afterBlogs.map(b => b.title)
+    const afterBlogs = await helper.blogsInDb()
+    const title = afterBlogs.map(b => b.title)
 
-  expect(afterBlogs).toHaveLength(helper.initialBlogs.length + 1)
-  expect(title).toContain('post test New Blog')
-})
+    expect(afterBlogs).toHaveLength(helper.initialBlogs.length + 1)
+    expect(title).toContain('post test New Blog')
+  })
 
-test('likesがリクエストに存在しなかった場合にデフォルトで0になる', async () => {
-  const newBlog = {
-    title: 'likes is empty',
-    author: 'yuji',
-    url: 'http://localhost'
-  }
+  test('likesがリクエストに存在しなかった場合にデフォルトで0になる', async () => {
+    const newBlog = {
+      title: 'likes is empty',
+      author: 'yuji',
+      url: 'http://localhost'
+    }
 
-  const response = await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(201)
+    const response = await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
 
-  const afterPosts = await helper.blogsInDb()
-  const posted = afterPosts.find(p => p.id === response.body.id)
+    const afterPosts = await helper.blogsInDb()
+    const posted = afterPosts.find(p => p.id === response.body.id)
 
-  expect(posted.likes).toBe(0)
-})
+    expect(posted.likes).toBe(0)
+  })
+});
 
 describe('値が不正の場合に400を返すか', () => {
   test('titleが空の場合に400を返すか', () => {
