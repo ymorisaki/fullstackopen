@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title": "test",
-  "author": "test",
+  "title": "MongoDB",
+  "author": "mori",
   "url": "http://localhost",
-  "likes": 5
+  "likes": 3
 }
