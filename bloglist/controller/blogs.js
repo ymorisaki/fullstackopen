@@ -7,6 +7,14 @@ blogRounter.get('/', (request, response) => {
   })
 })
 
+blogRounter.get('/:id', async (request, response) => {
+  const blog = await Blog.findById(request.params.id)
+
+  if (blog) {
+    response.json(blog)
+  }
+})
+
 blogRounter.post('/', (request, response) => {
   const blog = new Blog(request.body)
 
@@ -31,6 +39,29 @@ blogRounter.delete('/:id', (request, response) => {
   Blog.findByIdAndRemove(id).then(result => {
     response.status(204).end()
   })
+})
+
+blogRounter.put('/:id', async (request, response, next) => {
+  const {id} = request.params
+  const {likes} = await Blog.findById(id)
+  const updateLikes = {
+    likes: likes + 1,
+  }
+
+  try {
+    const blog = await Blog.findByIdAndUpdate(
+      id,
+      updateLikes,
+      {
+        new: true,
+        runValidators: true,
+        context: 'query',
+      }
+    )
+    response.json(blog)
+  } catch (error) {
+    next(error)
+  }
 })
 
 module.exports = blogRounter

@@ -65,9 +65,7 @@ describe('postテスト', () => {
 
     expect(posted.likes).toBe(0)
   })
-});
 
-describe('値が不正の場合に400を返すか', () => {
   test('titleが空の場合に400を返すか', () => {
     const newBlog = {
       title: '',
@@ -102,7 +100,37 @@ describe('値が不正の場合に400を返すか', () => {
 
     api.post('/api/blogs').send(newBlog).expect(400)
   })
-})
+});
+
+describe('deleteテスト', () => {
+  test('該当のエンドポイントが存在した場合に削除がされているか', async () => {
+    const blogs = await helper.blogsInDb()
+    const targetId = blogs[0].id
+
+    await api
+      .delete(`/api/blogs/${targetId}`)
+      .expect(204)
+
+    const afterBlogs = await Blog.find({})
+
+    expect(afterBlogs).toHaveLength(blogs.length - 1)
+  })
+});
+
+describe('putテスト', () => {
+  test('likesが1増えたか', async () => {
+    const blogs = await helper.blogsInDb()
+    const targetId = blogs[0].id
+
+    await api
+      .put(`/api/blogs/${targetId}`)
+      expect(200)
+    
+    const afterBlogs = await helper.blogsInDb()
+
+    expect(afterBlogs[0].likes).toBe(blogs[0].likes + 1)
+  })
+});
 
 afterAll(() => {
   mongoose.connection.close()
