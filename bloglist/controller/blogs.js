@@ -1,5 +1,5 @@
-const blogRounter = require('express').Router();
-const Blog = require('../models/blog');
+const blogRounter = require('express').Router()
+const Blog = require('../models/blog')
 
 blogRounter.get('/', (request, response) => {
   Blog.find({}).then(blogs => {
@@ -34,7 +34,7 @@ blogRounter.post('/', (request, response) => {
 })
 
 blogRounter.delete('/:id', (request, response) => {
-  const {id} = request.params
+  const { id } = request.params
 
   Blog.findByIdAndRemove(id).then(result => {
     response.status(204).end()
@@ -42,8 +42,8 @@ blogRounter.delete('/:id', (request, response) => {
 })
 
 blogRounter.put('/:id', async (request, response, next) => {
-  const {id} = request.params
-  const {likes} = await Blog.findById(id)
+  const { id } = request.params
+  const { likes } = await Blog.findById(id)
   const updateLikes = {
     likes: likes + 1,
   }

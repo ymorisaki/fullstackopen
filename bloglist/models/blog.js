@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const config = require('../util/config');
+const mongoose = require('mongoose')
+const config = require('../util/config')
 
 const blogSchema = new mongoose.Schema({
   title: {
@@ -17,6 +17,10 @@ const blogSchema = new mongoose.Schema({
   likes: {
     type: Number,
   },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  }
 })
 
 blogSchema.set('toJSON', {

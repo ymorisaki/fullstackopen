@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
-const supertest = require('supertest');
+const mongoose = require('mongoose')
+const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
-const helper = require('./test_helper');
+const helper = require('./test_helper')
 
 const api = supertest(app)
 
@@ -24,7 +24,7 @@ describe('getテスト', () => {
 
     expect(response.body).toHaveLength(helper.initialBlogs.length)
   })
-});
+})
 
 describe('postテスト', () => {
   test('正しくPOSTできているか', async () => {
@@ -100,7 +100,7 @@ describe('postテスト', () => {
 
     api.post('/api/blogs').send(newBlog).expect(400)
   })
-});
+})
 
 describe('deleteテスト', () => {
   test('該当のエンドポイントが存在した場合に削除がされているか', async () => {
@@ -115,7 +115,7 @@ describe('deleteテスト', () => {
 
     expect(afterBlogs).toHaveLength(blogs.length - 1)
   })
-});
+})
 
 describe('putテスト', () => {
   test('likesが1増えたか', async () => {
@@ -124,13 +124,13 @@ describe('putテスト', () => {
 
     await api
       .put(`/api/blogs/${targetId}`)
-      expect(200)
-    
+    expect(200)
+
     const afterBlogs = await helper.blogsInDb()
 
     expect(afterBlogs[0].likes).toBe(blogs[0].likes + 1)
   })
-});
+})
 
 afterAll(() => {
   mongoose.connection.close()
