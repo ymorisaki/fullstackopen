@@ -1,8 +1,9 @@
 POST http://localhost:3001/api/notes/
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Inl1amkiLCJpZCI6IjYyOTA1OTc4OWQwMmY5M2NjYzYxZDZiNyIsImlhdCI6MTY1MzYzNDM1Nn0.GzMPx_sELoe-1MH7YPRoggJWB1JSF3LyQenOIFxUb58
 
 {
-  "content": "VSfsfsfs",
+  "content": "jwt token",
   "important": false,
-  "userId": "62903f8be02ab596688a2c9f"
+  "userId": "629059789d02f93ccc61d6b7"
 }
