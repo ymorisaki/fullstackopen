@@ -128,9 +128,21 @@ describe('postテスト', () => {
       user: user._id
     }
 
+    await api.post('/api/users').send({
+      username: 'postUser',
+      name: 'postUser',
+      password: 'password',
+    }).expect(201)
+
+    const login = await api.post('/api/login').send({
+      username: 'postUser',
+      password: 'password',
+    })
+
     await api
       .post('/api/blogs')
       .send(newBlog)
+      .set('Authorization', `bearer ${login._body.token}`)
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
@@ -150,9 +162,21 @@ describe('postテスト', () => {
       user: user._id,
     }
 
+    await api.post('/api/users').send({
+      username: 'likesUser',
+      name: 'likesUser',
+      password: 'password',
+    }).expect(201)
+
+    const login = await api.post('/api/login').send({
+      username: 'likesUser',
+      password: 'password',
+    })
+
     const response = await api
       .post('/api/blogs')
       .send(newBlog)
+      .set('Authorization', `bearer ${login._body.token}`)
       .expect(201)
 
     const afterPosts = await helper.blogsInDb()
