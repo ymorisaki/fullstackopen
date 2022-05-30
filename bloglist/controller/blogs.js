@@ -63,6 +63,20 @@ blogRounter.post('/', async (request, response) => {
 
 blogRounter.delete('/:id', async (request, response) => {
   const { id } = request.params
+  const token = getToken(request)
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+
+  if (!decodedToken.id) {
+    return response.status(401).json({
+      error: 'token missing or invalid'
+    })
+  }
+
+  const user = await User.findById(decodedToken.id)
+
+  await User.findByIdAndUpdate(user._id, {
+    blogs: user.blogs.filter(blog => blog._id.toString() !== id)
+  })
 
   await Blog.findByIdAndRemove(id)
   response.status(204).end()
