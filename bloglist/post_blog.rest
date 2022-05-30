@@ -3,7 +3,8 @@ Content-Type: application/json
 
 {
   "title": "MongoDB",
-  "author": "mori",
+  "author": "yuji",
   "url": "http://localhost",
-  "likes": 3
+  "likes": 3,
+  "user": "6294590faa478f7828c4eb0c"
 }

@@ -12,8 +12,8 @@ beforeEach(async () => {
   await User.deleteMany({})
 
   const blogObjects = helper.initialBlogs.map(blog => new Blog(blog))
-  const blogPromisies = blogObjects.map(blog => blog.save())
   const userObjects = helper.initailUsers.map(user => new User(user))
+  const blogPromisies = blogObjects.map(blog => blog.save())
   const userPromisies = userObjects.map(user => user.save())
 
   await Promise.all([...blogPromisies, ...userPromisies])
@@ -36,7 +36,7 @@ describe('postテスト', () => {
     const newUser = {
       username: 'testuser',
       name: 'testuser',
-      password: 'test'
+      password: 'test',
     }
 
     await api
@@ -119,11 +119,13 @@ describe('postテスト', () => {
   })
 
   test('Blogが正しくPOSTできているか', async () => {
+    const [user] = await User.find({})
     const newBlog = {
       title: 'post test New Blog',
       author: 'yuji',
       url: 'http://localhost',
       likes: 3,
+      user: user._id
     }
 
     await api
@@ -140,10 +142,12 @@ describe('postテスト', () => {
   })
 
   test('likesがリクエストに存在しなかった場合にデフォルトで0になる', async () => {
+    const [user] = await User.find({})
     const newBlog = {
       title: 'likes is empty',
       author: 'yuji',
-      url: 'http://localhost'
+      url: 'http://localhost',
+      user: user._id,
     }
 
     const response = await api
