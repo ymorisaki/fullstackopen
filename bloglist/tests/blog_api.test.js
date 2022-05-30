@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
+const { set } = require('../app')
 const app = require('../app')
 const Blog = require('../models/blog')
 const User = require('../models/user')
@@ -198,17 +199,31 @@ describe('postテスト', () => {
 })
 
 describe('deleteテスト', () => {
-  test('該当のエンドポイントが存在した場合に削除がされているか', async () => {
-    const blogs = await helper.blogsInDb()
-    const targetId = blogs[0].id
+  test('作成したユーザのみがblogのdeleteが可能か', async () => {
+    const deleteUser = await api.post('/api/users').send({
+      username: 'delete user',
+      name: 'delete user',
+      password: 'password',
+    }).expect(201)
+    const userId = deleteUser._body.id
 
-    await api
-      .delete(`/api/blogs/${targetId}`)
-      .expect(204)
+    const login = await api.post('/api/login').send({
+      username: 'delete user',
+      password: 'password',
+    }).expect(200)
+    const { token } = login._body
 
-    const afterBlogs = await Blog.find({})
+    const posted = await api.post('/api/blogs').send({
+      title: 'test',
+      author: 'test',
+      url: 'test',
+      likes: 1,
+      user: userId,
+    }).set('Authorization', `bearer ${token}`).expect(201)
+    const { id } = posted._body
 
-    expect(afterBlogs).toHaveLength(blogs.length - 1)
+    await api.delete(`/api/blogs/${id}`).expect(401)
+    await api.delete(`/api/blogs/${id}`).set('Authorization', `bearer ${token}`).expect(204)
   })
 })
 
