@@ -14,6 +14,10 @@ blogRounter.get('/:id', async (request, response) => {
 
   if (blog) {
     response.json(blog)
+  } else {
+    response.status(404).json({
+      error: 'not found'
+    })
   }
 })
 
@@ -60,7 +64,7 @@ blogRounter.post('/', async (request, response) => {
 blogRounter.delete('/:id', async (request, response) => {
   const { id } = request.params
 
-  Blog.findByIdAndRemove(id)
+  await Blog.findByIdAndRemove(id)
   response.status(204).end()
 })
 
