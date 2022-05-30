@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken')
 const blogRounter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
@@ -17,7 +18,22 @@ blogRounter.get('/:id', async (request, response) => {
 
 blogRounter.post('/', async (request, response) => {
   const { body } = request
-  const user = await User.findById(body.user)
+  const token = (() => {
+    const authorization = request.get('authorization')
+    if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+      return authorization.substring(7)
+    }
+    return null
+  })()
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+
+  if (!decodedToken.id) {
+    return response.status(401).json({
+      error: 'token missing or invalid'
+    })
+  }
+
+  const user = await User.findById(decodedToken.id)
 
   if (
     !body.title ||
@@ -46,12 +62,11 @@ blogRounter.post('/', async (request, response) => {
   response.status(201).json(savedBlog)
 })
 
-blogRounter.delete('/:id', (request, response) => {
+blogRounter.delete('/:id', async (request, response) => {
   const { id } = request.params
 
-  Blog.findByIdAndRemove(id).then(result => {
-    response.status(204).end()
-  })
+  Blog.findByIdAndRemove(id)
+  response.status(204).end()
 })
 
 blogRounter.put('/:id', async (request, response, next) => {
