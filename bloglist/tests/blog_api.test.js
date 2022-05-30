@@ -227,6 +227,26 @@ describe('putテスト', () => {
   })
 })
 
+describe('loginテスト', () => {
+  test('loginが出来るか', async () => {
+    const newUser = {
+      username: 'login test',
+      name: 'login test',
+      password: 'password',
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(201)
+
+    await api
+      .post('/api/login')
+      .send(newUser)
+      .expect(200)
+  })
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
