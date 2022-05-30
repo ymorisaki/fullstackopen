@@ -2,17 +2,21 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const helper = require('./test_helper')
 
 const api = supertest(app)
 
 beforeEach(async () => {
   await Blog.deleteMany({})
+  await User.deleteMany({})
 
   const blogObjects = helper.initialBlogs.map(blog => new Blog(blog))
-  const promisies = blogObjects.map(blog => blog.save())
+  const blogPromisies = blogObjects.map(blog => blog.save())
+  const userObjects = helper.initailUsers.map(user => new User(user))
+  const userPromisies = userObjects.map(user => user.save())
 
-  await Promise.all(promisies)
+  await Promise.all([...blogPromisies, ...userPromisies])
 })
 
 describe('getテスト', () => {
@@ -27,7 +31,94 @@ describe('getテスト', () => {
 })
 
 describe('postテスト', () => {
-  test('正しくPOSTできているか', async () => {
+  test('Userが正しく登録できているか', async () => {
+    const beforeUsers = await User.find({})
+    const newUser = {
+      username: 'testuser',
+      name: 'testuser',
+      password: 'test'
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const afterUsers = await User.find({})
+
+    expect(beforeUsers).toHaveLength(afterUsers.length - 1)
+  })
+
+  test('User登録に必要な情報が欠けていた場合に正しくエラーが発生するか', async () => {
+    const newUser1 = {
+      name: 'test',
+      password: 'test',
+    }
+    const newUser2 = {
+      username: 'test',
+      password: 'test',
+    }
+    const newUser3 = {
+      username: 'test',
+      name: 'test',
+    }
+
+    const posted1 = await api
+      .post('/api/users')
+      .send(newUser1)
+      .expect(401)
+
+    const posted2 = await api
+      .post('/api/users')
+      .send(newUser2)
+      .expect(401)
+
+    const posted3 = await api
+      .post('/api/users')
+      .send(newUser3)
+      .expect(401)
+
+    const posted = await User.findOne({
+      username: 'test'
+    })
+
+    expect(posted).toBeNull()
+    expect(posted1.text).toMatch(/username or name or password is empty/)
+    expect(posted2.text).toMatch(/username or name or password is empty/)
+    expect(posted3.text).toMatch(/username or name or password is empty/)
+  })
+
+  test('重複するusernameでPOSTした際に正しくエラーが発生するか', async () => {
+    const newUser1 = {
+      username: 'test',
+      name: 'test',
+      password: 'test',
+    }
+    const newUser2 = {
+      username: 'test',
+      name: 'this is only name for JEST TEST',
+      password: 'test',
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser1)
+
+    const { text } = await api
+      .post('/api/users')
+      .send(newUser2)
+      .expect(401)
+
+    const posted = await User.findOne({
+      name: 'this is only name for JEST TEST',
+    })
+
+    expect(text).toMatch(/test was register/)
+    expect(posted).toBeNull()
+  })
+
+  test('Blogが正しくPOSTできているか', async () => {
     const newBlog = {
       title: 'post test New Blog',
       author: 'yuji',

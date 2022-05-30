@@ -10,6 +10,34 @@ userRouter.get('/', async (request, response) => {
 
 userRouter.post('/', async (request, response) => {
   const { username, name, password } = request.body
+  const uniqueUser = await User.findOne({ username })
+
+  if (
+    !username ||
+    !name ||
+    !password
+  ) {
+    return response.status(401).json({
+      error: 'username or name or password is empty'
+    })
+  }
+
+  if (uniqueUser) {
+    return response.status(401).json({
+      error: `${username} was register`
+    })
+  }
+
+  if (
+    username.length < 4 ||
+    name.length < 4 ||
+    password.length < 4
+  ) {
+    return response.status(401).json({
+      error: 'error invalid'
+    })
+  }
+
   const saltRounds = 10
   const passwordHash = await bcrypt.hash(password, saltRounds)
   const user = new User({
