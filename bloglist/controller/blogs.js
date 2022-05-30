@@ -40,8 +40,6 @@ blogRounter.post('/', async (request, response) => {
     user: user._id
   })
 
-  console.log(user)
-
   const savedBlog = await newBlog.save()
   user.blogs = user.blogs.concat(savedBlog._id)
   await user.save()
