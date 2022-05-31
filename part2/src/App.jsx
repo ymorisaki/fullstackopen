@@ -11,7 +11,6 @@ import noteService from './services/notes'
 
 const App = () => {
   const [notes, setNotes] = useState([])
-  const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] = useState(true)
 
   useEffect(() =>{
@@ -25,8 +24,8 @@ const App = () => {
     <div>
       <Heading1 />
       <ButtonShow showAll={showAll} setShowAll={setShowAll} />
-      <Notes showAll={showAll} notes={notes} setNotes={setNotes} setShowAll={setShowAll} />
-      <FormNote notes={notes} setNotes={setNotes} newNote={newNote} setNewNote={setNewNote} />
+      <Notes showAll={showAll} notes={notes} setShowAll={setShowAll} setNotes={setNotes} />
+      <FormNote notes={notes} setNotes={setNotes} />
     </div>
   )
 }
