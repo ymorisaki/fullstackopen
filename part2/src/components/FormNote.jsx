@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import noteService from '../services/notes'
 
-const FormNote = ({notes, setNotes}) => {
+const FormNote = ({user, notes, setNotes}) => {
   const [newNote, setNewNote] = useState('')
 
   const addNote = async (event) => {
@@ -11,10 +11,10 @@ const FormNote = ({notes, setNotes}) => {
       content: newNote,
       date: new Date().toISOString(),
       important: Math.random() > 0.5,
+      id: notes.length + 1,
     }
 
-    const response = await noteService.create(newObject)
-    newObject.id = response.data.id
+    await noteService.create(newObject)
     setNotes(notes.concat(newObject))
     setNewNote('')
   }
@@ -24,10 +24,14 @@ const FormNote = ({notes, setNotes}) => {
   }
 
   return (
-    <form onSubmit={addNote}>
-      <input type="text" onChange={handleChange} value={newNote} placeholder="..." />
-      <button type="submit">save</button>
-    </form>
+    <>
+      {user &&
+      <form onSubmit={addNote}>
+        <input type="text" onChange={handleChange} value={newNote} placeholder="..." />
+        <button type="submit">save</button>
+      </form>
+      }
+    </>
   )
 }
 
