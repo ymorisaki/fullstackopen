@@ -15,8 +15,8 @@ const App = () => {
 
   useEffect(() =>{
     (async () => {
-      const data = await noteService.getAll()
-      setNotes(data.data)
+      const {data} = await noteService.getAll()
+      setNotes(data)
     })()
   }, [])
 
