@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Profile = ({user, setUser}) => {
+const Profile = ({ user, setUser }) => {
   const logout = () => {
     setUser({
       username: '',
@@ -12,9 +12,9 @@ const Profile = ({user, setUser}) => {
 
   return (
     <>
-    {user.username &&
+      {user.username &&
     <p>{user.username} logged in <button type="button" onClick={logout}>LogOut</button></p>
-    }
+      }
     </>
   )
 }

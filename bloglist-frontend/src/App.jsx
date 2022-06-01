@@ -22,7 +22,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -59,11 +59,11 @@ const App = () => {
       <Message message={message} />
       {user.username !== '' &&
         blogs.map(blog =>
-        <Blog
-          key={blog.id}
-          blog={blog}
-        />
-      )}
+          <Blog
+            key={blog.id}
+            blog={blog}
+          />
+        )}
     </div>
   )
 }

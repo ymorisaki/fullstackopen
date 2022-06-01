@@ -1,8 +1,8 @@
-import {useState} from 'react'
+import { useState } from 'react'
 import login from '../services/login'
 import blogs from '../services/blogs'
 
-const FormLogin = ({user, setUser, setMessage}) => {
+const FormLogin = ({ user, setUser, setMessage }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const handleSubmit = async (event) => {
@@ -37,9 +37,9 @@ const FormLogin = ({user, setUser, setMessage}) => {
     <>
       {user.username === '' &&
       <form onSubmit={handleSubmit}>
-        <label>username <input type="text" value={username} onChange={({target}) => setUsername(target.value)} /></label>
+        <label>username <input type="text" value={username} onChange={({ target }) => setUsername(target.value)} /></label>
         <br />
-        <label>password <input type="text" value={password} onChange={({target}) => setPassword(target.value)} /></label>
+        <label>password <input type="text" value={password} onChange={({ target }) => setPassword(target.value)} /></label>
         <br />
         <button type="submit">login</button>
       </form>
