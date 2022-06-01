@@ -37,7 +37,6 @@ blogRounter.post('/', async (request, response) => {
   if (
     !body.title ||
     !body.author ||
-    !body.user ||
     !user
   ) {
     return response.status(400).end()

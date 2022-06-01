@@ -26,7 +26,9 @@ const App = () => {
     const loginStorage = window.localStorage.getItem('blogappUserData')
 
     if (loginStorage) {
-      setUser(JSON.parse(loginStorage))
+      const parse = JSON.parse(loginStorage)
+      setUser(parse)
+      blogService.setToken(parse.token)
     }
   }, [])
 
@@ -40,6 +42,8 @@ const App = () => {
       <HeadingL2>create new</HeadingL2>
       <FormNewPost
         user={user}
+        blogs={blogs}
+        setBlogs={setBlogs}
       />
       <FormLogin
         user={user}

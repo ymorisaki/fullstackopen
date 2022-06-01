@@ -1,10 +1,11 @@
 import React, {useState} from 'react'
+import blogService from '../services/blogs'
 
-const FormNewPost = ({user}) => {
+const FormNewPost = ({user, blogs, setBlogs}) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
 
     if (
@@ -15,6 +16,13 @@ const FormNewPost = ({user}) => {
       return
     }
 
+    const data = await blogService.post({
+      title,
+      author,
+      url
+    })
+
+    setBlogs(blogs.concat([data]))
     setTitle('')
     setAuthor('')
     setUrl('')
