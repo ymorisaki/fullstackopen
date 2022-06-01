@@ -1,7 +1,7 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import noteService from '../services/notes'
 
-const FormNote = ({user, notes, setNotes}) => {
+const FormNote = ({ user, notes, setNotes }) => {
   const [newNote, setNewNote] = useState('')
 
   const addNote = async (event) => {

@@ -1,8 +1,8 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import loginService from '../services/login'
 import noteService from '../services/notes'
 
-const FormLogin = ({user, setUser, setMessage}) => {
+const FormLogin = ({ user, setUser, setMessage }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -38,7 +38,7 @@ const FormLogin = ({user, setUser, setMessage}) => {
             <input
               type="text"
               value={username}
-              onChange={({target}) => setUsername(target.value)}
+              onChange={({ target }) => setUsername(target.value)}
             />
           </label>
           <br />
@@ -47,7 +47,7 @@ const FormLogin = ({user, setUser, setMessage}) => {
             <input
               type="text"
               value={password}
-              onChange={({target}) => setPassword(target.value)}
+              onChange={({ target }) => setPassword(target.value)}
             />
           </label>
           <br />

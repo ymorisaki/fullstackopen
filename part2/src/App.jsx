@@ -16,9 +16,9 @@ const App = () => {
   const [message, setMessage] = useState('')
   const [user, setUser] = useState(null)
 
-  useEffect(() =>{
+  useEffect(() => {
     (async () => {
-      const {data} = await noteService.getAll()
+      const { data } = await noteService.getAll()
       setNotes(data)
     })()
   }, [])
