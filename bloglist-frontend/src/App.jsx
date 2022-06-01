@@ -9,7 +9,10 @@ import blogService from './services/blogs'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState({
+    message: '',
+    error: false,
+  })
   const [user, setUser] = useState({
     username: '',
     name: '',
@@ -39,11 +42,14 @@ const App = () => {
         user={user}
         setUser={setUser}
       />
+      {user.username &&
       <HeadingL2>create new</HeadingL2>
+      }
       <FormNewPost
         user={user}
         blogs={blogs}
         setBlogs={setBlogs}
+        setMessage={setMessage}
       />
       <FormLogin
         user={user}

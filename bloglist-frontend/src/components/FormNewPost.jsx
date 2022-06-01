@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import blogService from '../services/blogs'
 
-const FormNewPost = ({user, blogs, setBlogs}) => {
+const FormNewPost = ({user, blogs, setBlogs, setMessage}) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -23,9 +23,19 @@ const FormNewPost = ({user, blogs, setBlogs}) => {
     })
 
     setBlogs(blogs.concat([data]))
+    setMessage({
+      message: `a new blog ${title}`,
+      error: false,
+    })
     setTitle('')
     setAuthor('')
     setUrl('')
+    setTimeout(() => {
+      setMessage({
+        message: '',
+        error: false,
+      })
+    }, 4000)
   }
   return (
     <>

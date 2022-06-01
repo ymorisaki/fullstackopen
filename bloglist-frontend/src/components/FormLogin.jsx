@@ -20,9 +20,15 @@ const FormLogin = ({user, setUser, setMessage}) => {
       setUsername('')
       setPassword('')
     } catch (error) {
-      setMessage('username or password invalid')
+      setMessage({
+        message: 'username or password invalid',
+        error: true,
+      })
       setTimeout(() => {
-        setMessage('')
+        setMessage({
+          message: '',
+          error: false,
+        })
       }, 4000)
     }
   }
