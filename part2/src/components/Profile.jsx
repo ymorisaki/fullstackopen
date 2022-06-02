@@ -4,7 +4,7 @@ const Profile = ({ user }) => {
   return (
     <>
       {user &&
-        <p>{user.username}</p>
+        <p>{user.username} was loggedin</p>
       }
       {!user &&
         <p>Please login</p>
