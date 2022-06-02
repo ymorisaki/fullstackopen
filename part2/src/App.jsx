@@ -8,6 +8,7 @@ import FormNote from './components/FormNote'
 import Notes from './components/Notes'
 import Profile from './components/Profile'
 import Notification from './components/Notification'
+import Footer from './components/Footer'
 import noteService from './services/notes'
 
 const App = () => {
@@ -42,6 +43,7 @@ const App = () => {
       <ButtonShow showAll={showAll} setShowAll={setShowAll} />
       <Notes showAll={showAll} notes={notes} setShowAll={setShowAll} setNotes={setNotes} />
       <FormNote user={user} notes={notes} setNotes={setNotes} />
+      <Footer />
     </div>
   )
 }
