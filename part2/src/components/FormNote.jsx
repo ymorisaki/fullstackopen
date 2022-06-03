@@ -10,12 +10,11 @@ const FormNote = ({ user, notes, setNotes }) => {
     const newObject = {
       content: newNote,
       date: new Date().toISOString(),
-      important: Math.random() > 0.5,
-      id: notes.length + 1,
+      important: false,
     }
 
-    await noteService.create(newObject)
-    setNotes(notes.concat(newObject))
+    const saved = await noteService.create(newObject)
+    setNotes(notes.concat(saved))
     setNewNote('')
   }
 
@@ -27,8 +26,14 @@ const FormNote = ({ user, notes, setNotes }) => {
     <>
       {user &&
       <form onSubmit={addNote}>
-        <input type="text" onChange={handleChange} value={newNote} placeholder="..." />
-        <button type="submit">save</button>
+        <input
+          type="text"
+          id="note-input"
+          onChange={handleChange}
+          value={newNote}
+          placeholder="..."
+        />
+        <button id="note-save" type="submit">save</button>
       </form>
       }
     </>

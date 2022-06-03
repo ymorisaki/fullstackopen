@@ -6,6 +6,7 @@ const Notes = ({ showAll, notes, setNotes }) => {
   const notesToShow = showAll ? notes : notes.filter(note => note.important === true)
   const toggleImportant = async (id) => {
     try {
+      console.log(notes)
       const note = notes.find(n => n.id === id)
       const changeNote = { ...note, important: !note.important }
       const response = await noteService.update(id, changeNote)
