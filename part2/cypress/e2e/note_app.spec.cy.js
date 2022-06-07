@@ -22,7 +22,7 @@ describe('Note app', function() {
     cy.contains('yuji was loggedin')
   })
 
-  it.only('login fails with wrong password', function () {
+  it('login fails with wrong password', function () {
     cy.get('#username').type('yuji')
     cy.get('#password').type('wrong')
     cy.get('#login-button').click()
@@ -48,9 +48,9 @@ describe('Note app', function() {
         cy.createNote({ content: 'third note', important: false })
       })
 
-      it.only('one of those can be made important', function () {
-        cy.contains('second note').contains('not importance').click()
-        cy.contains('second note').contains('is importance')
+      it('one of those can be made important', function () {
+        cy.contains('second note').parent().find('button').click()
+        cy.contains('second note').parent().find('button').should('contain', 'is importance')
       })
     })
 
@@ -63,8 +63,8 @@ describe('Note app', function() {
       })
 
       it('it can be made important', function () {
-        cy.contains('another note cypress').contains('not importance').click()
-        cy.contains('another note cypress').contains('is importance').click()
+        cy.contains('another note cypress').parent().find('button').click()
+        cy.contains('another note cypress').parent().find('button').should('contain', 'is importance')
       })
     })
   })
