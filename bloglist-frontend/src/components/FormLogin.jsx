@@ -37,11 +37,11 @@ const FormLogin = ({ user, setUser, setMessage }) => {
     <>
       {user.username === '' &&
       <form onSubmit={handleSubmit}>
-        <label>username <input type="text" value={username} onChange={({ target }) => setUsername(target.value)} /></label>
+        <label>username <input id="input-name" type="text" value={username} onChange={({ target }) => setUsername(target.value)} /></label>
         <br />
-        <label>password <input type="text" value={password} onChange={({ target }) => setPassword(target.value)} /></label>
+        <label>password <input id="input-password" type="text" value={password} onChange={({ target }) => setPassword(target.value)} /></label>
         <br />
-        <button type="submit">login</button>
+        <button id="button-login" type="submit">login</button>
       </form>
       }
     </>
