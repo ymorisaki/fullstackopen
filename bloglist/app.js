@@ -5,6 +5,12 @@ const userRouter = require('./controller/users')
 const loginRouter = require('./controller/login')
 const app = express()
 
+if (process.env.NODE_ENV === 'test') {
+  const testingRouter = require('./controller/testing')
+
+  app.use('/api/testing', testingRouter)
+}
+
 app.use(cors())
 app.use(express.json())
 app.use('/api/blogs', blogRouter)

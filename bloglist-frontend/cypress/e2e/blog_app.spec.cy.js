@@ -1,15 +1,15 @@
 describe('Blog app', function () {
-  it('frontend page can be opend', function () {
+  beforeEach(function () {
+    cy.request('POST', 'http://localhost:3003/api/testing/reset')
     cy.visit('http://localhost:3000')
-    cy.contains('Blogs')
-    cy.contains('username')
+    cy.request('POST', 'http://localhost:3003/api/users', {
+      username: 'yuji',
+      name: 'mori',
+      password: 'password'
+    })
   })
 
-  it('login', function () {
-    cy.visit('http://localhost:3000')
-    cy.get('#input-name').type('yuji')
-    cy.get('#input-password').type('password')
-    cy.get('#button-login').click()
-    cy.contains('yuji logged in')
+  it('test', function () {
+    cy.contains('Blogs')
   })
 })
