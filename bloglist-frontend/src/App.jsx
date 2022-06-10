@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
+import HeadingL1 from './components/HeadingL1'
 import HeadingL2 from './components/HeadingL2'
 import Blog from './components/Blog'
 import Profile from './components/Profile'
 import FormNewPost from './components/FormNewPost'
 import Message from './components/Message'
 import FormLogin from './components/FormLogin'
+import FormSignup from './components/FormSignup'
 import blogService from './services/blogs'
 
 const App = () => {
@@ -37,7 +39,7 @@ const App = () => {
 
   return (
     <div>
-      <HeadingL2>Blogs</HeadingL2>
+      <HeadingL1>Blogs</HeadingL1>
       <Profile
         user={user}
         setUser={setUser}
@@ -51,11 +53,14 @@ const App = () => {
         setBlogs={setBlogs}
         setMessage={setMessage}
       />
+      <HeadingL2>SignIn</HeadingL2>
       <FormLogin
         user={user}
         setUser={setUser}
         setMessage={setMessage}
       />
+      <HeadingL2>SignUp</HeadingL2>
+      <FormSignup />
       <Message message={message} />
       {user.username !== '' &&
         blogs.map(blog =>
