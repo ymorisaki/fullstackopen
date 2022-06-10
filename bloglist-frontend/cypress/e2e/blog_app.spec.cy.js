@@ -5,27 +5,25 @@ describe('Blog app', function () {
   })
 
   it('create user', function () {
-    cy.request('POST', 'http://localhost:3003/api/users', {
-      username: 'yuji',
-      name: 'mori',
-      password: 'password'
-    })
+    cy.createUser()
   })
 
   describe('login', function () {
     beforeEach(function () {
-      cy.request('POST', 'http://localhost:3003/api/users', {
-        username: 'yuji',
-        name: 'mori',
-        password: 'password'
-      })
+      cy.createUser()
     })
 
     it('success', function () {
-      cy.get('#input-name').type('yuji')
-      cy.get('#input-password').type('password')
-      cy.get('#button-login').click()
+      cy.login()
       cy.contains('yuji logged in')
+    })
+
+    it.only('a blog can be created', function () {
+      cy.login()
+      cy.get('#input-title').type('test-title')
+      cy.get('#input-author').type('test-user')
+      cy.get('#input-url').type('http://localhost')
+      cy.get('#button-create').click()
     })
 
     it('invalid name', function () {
@@ -47,9 +45,5 @@ describe('Blog app', function () {
         .should('have.css', 'border-color', 'rgb(193, 31, 31)')
       cy.contains('username or password invalid')
     })
-  })
-
-  it('test', function () {
-    cy.contains('Blogs')
   })
 })
