@@ -1,0 +1,14 @@
+.buttonLikes {
+  padding: 2px 5px;
+  appearance: none;
+  border: 1px solid gray;
+  border-radius: 5px;
+  background-color: #fff;
+  transition: .2s;
+
+  &.active {
+    border-color: rgb(225, 79, 103);
+    background-color: rgb(225, 79, 103);
+    color: #fff;
+  }
+}

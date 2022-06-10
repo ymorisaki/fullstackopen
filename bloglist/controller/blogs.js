@@ -81,10 +81,11 @@ blogRounter.delete('/:id', async (request, response) => {
 })
 
 blogRounter.put('/:id', async (request, response, next) => {
+  const { body } = request
   const { id } = request.params
   const { likes } = await Blog.findById(id)
   const updateLikes = {
-    likes: likes + 1,
+    likes: body.add ? likes + 1 : likes -1,
   }
 
   try {

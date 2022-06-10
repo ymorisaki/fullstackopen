@@ -1,1 +1,6 @@
-PUT http://localhost:3003/api/blogs/628b46e526467ba99f55303d
+PUT http://localhost:3003/api/blogs/62946ee2edd60b244e9d4fcc
+Content-Type: application/json
+
+{
+  "add": false
+}
