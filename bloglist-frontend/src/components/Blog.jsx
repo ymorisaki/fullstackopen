@@ -4,12 +4,14 @@ import axios from 'axios'
 
 const Blog = ({ blog, user }) => {
   const [active, setActive] = useState(false)
-  const like = user.likes.some(l => blog.id === l)
+  const [likes, setLikes] = useState(blog.likes)
 
   const handleClick = async () => {
     if (active) {
+      setLikes(likes - 1)
       setActive(false)
     } else {
+      setLikes(likes + 1)
       setActive(true)
     }
 
@@ -20,11 +22,15 @@ const Blog = ({ blog, user }) => {
   }
 
   useEffect(() => {
-    console.log(user.likes, blog.id)
-    if (like) {
-      setActive(true)
-    }
-  }, [active])
+    (async () => {
+      const { data } = await axios.get(`/api/users/${user.id}`)
+      const like = data.likes.some(like => like === blog.id)
+
+      if (like) {
+        setActive(true)
+      }
+    })()
+  }, [])
 
   return (
     <div>
@@ -34,7 +40,7 @@ const Blog = ({ blog, user }) => {
         type="button"
         onClick={handleClick}
       >
-        Likes {blog.likes}
+        Likes {likes}
       </button>
     </div>
   )
