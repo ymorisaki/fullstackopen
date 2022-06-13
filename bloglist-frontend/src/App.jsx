@@ -53,14 +53,14 @@ const App = () => {
         setBlogs={setBlogs}
         setMessage={setMessage}
       />
-      <HeadingL2>SignIn</HeadingL2>
+      {!user.username && <HeadingL2>SignIn</HeadingL2>}
       <FormLogin
         user={user}
         setUser={setUser}
         setMessage={setMessage}
       />
-      <HeadingL2>SignUp</HeadingL2>
-      <FormSignup />
+      {!user.username && <HeadingL2>SignUp</HeadingL2>}
+      {!user.username && <FormSignup />}
       <Message message={message} />
       {user.username !== '' &&
         blogs.map(blog =>
