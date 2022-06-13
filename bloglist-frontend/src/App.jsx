@@ -69,7 +69,8 @@ const App = () => {
             key={blog.id}
             blog={blog}
             user={user}
-            setUser={setUser}
+            blogs={blogs}
+            setBlogs={setBlogs}
           />
         )}
     </div>

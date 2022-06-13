@@ -2,11 +2,18 @@ import { useState, useEffect } from 'react'
 import styles from './Blog.module.scss'
 import axios from 'axios'
 
-const Blog = ({ blog, user }) => {
+const Blog = ({ blog, user, blogs, setBlogs }) => {
   const [active, setActive] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
 
   const handleClick = async () => {
+    const updateBlogs = blogs.map(b => {
+      if (b.id === blog.id) {
+        active ? b.likes-- : b.likes++
+        console.log(b, blog.id)
+      }
+      return b
+    })
     if (active) {
       setLikes(likes - 1)
       setActive(false)
@@ -19,6 +26,8 @@ const Blog = ({ blog, user }) => {
       add: !active,
       userId: user.id
     })
+
+    setBlogs(updateBlogs)
   }
 
   useEffect(() => {
