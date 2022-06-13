@@ -10,7 +10,6 @@ const Blog = ({ blog, user, blogs, setBlogs }) => {
     const updateBlogs = blogs.map(b => {
       if (b.id === blog.id) {
         active ? b.likes-- : b.likes++
-        console.log(b, blog.id)
       }
       return b
     })
