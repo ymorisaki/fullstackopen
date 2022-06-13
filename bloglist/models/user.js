@@ -11,10 +11,17 @@ const userSchema = new mongoose.Schema({
     minLength: 3
   },
   passwordHash: String,
+  userId: mongoose.Schema.Types.ObjectId,
   blogs: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Blog'
+    }
+  ],
+  likes: [
+    {
+      type: String,
+      ref: 'Likes'
     }
   ]
 })

@@ -82,20 +82,34 @@ blogRounter.delete('/:id', async (request, response) => {
 
 blogRounter.put('/:id', async (request, response, next) => {
   const { body } = request
-  const { id } = request.params
-  const { likes } = await Blog.findById(id)
+  const blogId = request.params.id
+  const { likes } = await Blog.findById(blogId)
+  const user = await User.findById(body.userId)
+  const userId = user.toJSON().id
   const updateLikes = {
     likes: body.add ? likes + 1 : likes -1,
+  }
+  const updateUser = {
+    likes: body.add ?
+      user.likes.concat([blogId]) :
+      user.likes.filter(like => like !== blogId)
   }
 
   try {
     const blog = await Blog.findByIdAndUpdate(
-      id,
+      blogId,
       updateLikes,
       {
         new: true,
         runValidators: true,
         context: 'query',
+      }
+    )
+    await User.findByIdAndUpdate(
+      userId,
+      updateUser,
+      {
+        new: true
       }
     )
     response.json(blog)

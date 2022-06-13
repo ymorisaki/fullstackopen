@@ -19,6 +19,7 @@ const App = () => {
     username: '',
     name: '',
     token: '',
+    likes: []
   })
 
   useEffect(() => {
@@ -67,6 +68,8 @@ const App = () => {
           <Blog
             key={blog.id}
             blog={blog}
+            user={user}
+            setUser={setUser}
           />
         )}
     </div>

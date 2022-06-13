@@ -1,15 +1,30 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styles from './Blog.module.scss'
+import axios from 'axios'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, user }) => {
   const [active, setActive] = useState(false)
-  const handleClick = () => {
+  const like = user.likes.some(l => blog.id === l)
+
+  const handleClick = async () => {
     if (active) {
       setActive(false)
     } else {
       setActive(true)
     }
+
+    await axios.put(`/api/blogs/${blog.id}`, {
+      add: !active,
+      userId: user.id
+    })
   }
+
+  useEffect(() => {
+    console.log(user.likes, blog.id)
+    if (like) {
+      setActive(true)
+    }
+  }, [active])
 
   return (
     <div>
