@@ -73,4 +73,25 @@ describe('Blog app', function () {
       cy.get('.favorite').eq(0).contains('Likes 0')
     })
   })
+
+  describe('delete', function () {
+    beforeEach(function () {
+      cy.createUser()
+      cy.createUser2()
+    })
+
+    it.only('delete post', function () {
+      cy.login()
+      cy.blogPost()
+      cy.blogPost()
+      cy.blogPost()
+      cy.get('.blog').should('have.length', 3)
+      cy.get('.button-delete').eq(0).click()
+      cy.get('.blog').should('have.length', 2)
+      cy.get('.button-logout').click()
+      cy.login2()
+      cy.get('.blog').eq(0).get('.button-delete').should('not.exist')
+      cy.get('.blog').eq(1).get('.button-delete').should('not.exist')
+    })
+  })
 })

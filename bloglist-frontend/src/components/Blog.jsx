@@ -57,7 +57,7 @@ const Blog = ({ blog, user, blogs, setBlogs }) => {
   }, [])
 
   return (
-    <div>
+    <div className="blog">
     Tilte:{blog.title}, Author:{blog.author}, URL:{blog.url}
       <button
         className={`favorite ${styles.buttonLikes} ${active ? styles.active : ''}`}
