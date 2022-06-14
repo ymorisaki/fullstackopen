@@ -32,11 +32,14 @@ const Blog = ({ blog, user, blogs, setBlogs }) => {
   useEffect(() => {
     (async () => {
       const { data } = await axios.get(`/api/users/${user.id}`)
-      const like = data.likes.some(like => like === blog.id)
 
-      if (like) {
-        setActive(true)
+      if (data) {
+        const like = data.likes.some(like => like === blog.id)
+        if (like) {
+          setActive(true)
+        }
       }
+
     })()
   }, [])
 
