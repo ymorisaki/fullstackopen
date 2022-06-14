@@ -80,7 +80,7 @@ describe('Blog app', function () {
       cy.createUser2()
     })
 
-    it.only('delete post', function () {
+    it('delete post', function () {
       cy.login()
       cy.blogPost()
       cy.blogPost()
