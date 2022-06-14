@@ -60,14 +60,14 @@ const Blog = ({ blog, user, blogs, setBlogs }) => {
     <div>
     Tilte:{blog.title}, Author:{blog.author}, URL:{blog.url}
       <button
-        className={`${styles.buttonLikes} ${active ? styles.active : ''}`}
+        className={`favorite ${styles.buttonLikes} ${active ? styles.active : ''}`}
         type="button"
         onClick={handleLike}
       >
         Likes {likes}
       </button>
       {blog.user.id === user.id &&
-        <button type="button" onClick={handleDelete}>Delete</button>
+        <button type="button" className="button-delete" onClick={handleDelete}>Delete</button>
       }
     </div>
   )

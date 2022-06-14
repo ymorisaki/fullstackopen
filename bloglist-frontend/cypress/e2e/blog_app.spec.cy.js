@@ -18,7 +18,7 @@ describe('Blog app', function () {
       cy.contains('yuji logged in')
     })
 
-    it.only('a blog can be created', function () {
+    it('a blog can be created', function () {
       cy.login()
       cy.get('#input-title').type('test-title')
       cy.get('#input-author').type('test-user')
@@ -44,6 +44,33 @@ describe('Blog app', function () {
         .should('have.css', 'color', 'rgb(193, 31, 31)')
         .should('have.css', 'border-color', 'rgb(193, 31, 31)')
       cy.contains('username or password invalid')
+    })
+  })
+
+  describe('favorite', function () {
+    beforeEach(function () {
+      cy.createUser()
+      cy.createUser2()
+    })
+
+    it('change favorite', function () {
+      cy.login()
+      cy.blogPost()
+      cy.blogPost()
+      cy.get('.favorite').eq(0).contains('Likes 0')
+      cy.get('.favorite').eq(0).click()
+      cy.get('.favorite').eq(0).contains('Likes 1')
+      cy.get('.button-logout').click()
+      cy.login2()
+      cy.get('.favorite').eq(0).contains('Likes 1')
+      cy.get('.favorite').eq(0).click()
+      cy.get('.favorite').eq(0).contains('Likes 2')
+      cy.get('.favorite').eq(0).click()
+      cy.get('.favorite').eq(0).contains('Likes 1')
+      cy.get('.button-logout').click()
+      cy.login()
+      cy.get('.favorite').eq(0).click()
+      cy.get('.favorite').eq(0).contains('Likes 0')
     })
   })
 })

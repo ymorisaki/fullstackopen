@@ -16,8 +16,29 @@ Cypress.Commands.add('createUser', () => {
   })
 })
 
+Cypress.Commands.add('createUser2', () => {
+  cy.request('POST', 'http://localhost:3003/api/users', {
+    username: 'test',
+    name: 'mori',
+    password: 'password'
+  })
+})
+
 Cypress.Commands.add('login', () => {
   cy.get('#input-name').type('yuji')
   cy.get('#input-password').type('password')
   cy.get('#button-login').click()
+})
+
+Cypress.Commands.add('login2', () => {
+  cy.get('#input-name').type('test')
+  cy.get('#input-password').type('password')
+  cy.get('#button-login').click()
+})
+
+Cypress.Commands.add('blogPost', () => {
+  cy.get('#input-title').type('test-title')
+  cy.get('#input-author').type('test-user')
+  cy.get('#input-url').type('http://localhost')
+  cy.get('#button-create').click()
 })

@@ -13,7 +13,7 @@ const Profile = ({ user, setUser }) => {
   return (
     <>
       {user.username &&
-    <p>{user.username} logged in <button type="button" onClick={logout}>LogOut</button></p>
+    <p>{user.username} logged in <button className='button-logout' type="button" onClick={logout}>LogOut</button></p>
       }
     </>
   )
