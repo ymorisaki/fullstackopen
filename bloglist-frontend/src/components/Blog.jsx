@@ -6,7 +6,7 @@ const Blog = ({ blog, user, blogs, setBlogs }) => {
   const [active, setActive] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
 
-  const handleClick = async () => {
+  const handleLike = async () => {
     const updateBlogs = blogs.map(b => {
       if (b.id === blog.id) {
         active ? b.likes-- : b.likes++
@@ -29,6 +29,20 @@ const Blog = ({ blog, user, blogs, setBlogs }) => {
     setBlogs(updateBlogs)
   }
 
+  const handleDelete = async () => {
+    try {
+      if (!window.confirm('削除を実行しますか？')) {
+        return
+      }
+      await axios.delete(`/api/blogs/${blog.id}`, {
+        headers: { Authorization: user.token },
+      })
+      setBlogs(blogs.filter(b => b.id !== blog.id))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   useEffect(() => {
     (async () => {
       const { data } = await axios.get(`/api/users/${user.id}`)
@@ -39,7 +53,6 @@ const Blog = ({ blog, user, blogs, setBlogs }) => {
           setActive(true)
         }
       }
-
     })()
   }, [])
 
@@ -49,10 +62,13 @@ const Blog = ({ blog, user, blogs, setBlogs }) => {
       <button
         className={`${styles.buttonLikes} ${active ? styles.active : ''}`}
         type="button"
-        onClick={handleClick}
+        onClick={handleLike}
       >
         Likes {likes}
       </button>
+      {blog.user.id === user.id &&
+        <button type="button" onClick={handleDelete}>Delete</button>
+      }
     </div>
   )
 }

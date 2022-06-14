@@ -66,7 +66,6 @@ blogRounter.delete('/:id', async (request, response) => {
     const token = getToken(request)
     const decodedToken = jwt.verify(token, process.env.SECRET)
     const user = await User.findById(decodedToken.id)
-
     await User.findByIdAndUpdate(user._id, {
       blogs: user.blogs.filter(blog => blog._id.toString() !== id)
     })

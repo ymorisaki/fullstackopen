@@ -6,6 +6,8 @@ const getToken = (request) => {
     authorization.toLowerCase().startsWith('bearer ')
   ) {
     return authorization.substring(7)
+  } else if (authorization) {
+    return authorization
   }
   return null
 }
