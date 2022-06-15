@@ -2,28 +2,42 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {createStore} from 'redux'
 
-const counterReducer = (state = 0, action) => {
-  switch (action.type) {
-    case 'INCREMENT':
-      return state + 1
-    case 'DECREMENT':
-      return state - 1
-    case 'ZERO':
-      return 0
-    default:
-      return state
+const noteReducer = (state = [], action) => {
+  if (action.type === 'NEW_NOTE') {
+    return state.concat(action.data)
   }
+  return state
 }
 
-const store = createStore(counterReducer)
+const store = createStore(noteReducer)
+
+store.dispatch({
+  type: 'NEW_NOTE',
+  data: {
+    content: 'state change are made with actions',
+    important: true,
+  },
+  id: 1,
+})
+store.dispatch({
+  type: 'NEW_NOTE',
+  data: {
+    content: 'state change are made with actions',
+    important: false,
+  },
+  id: 2,
+})
 
 const App = () => {
   return (
     <>
-      <div>{store.getState()}</div>
-      <button onClick={() => store.dispatch({type: 'INCREMENT'})}>+</button>
-      <button onClick={() => store.dispatch({type: 'DECREMENT'})}>-</button>
-      <button onClick={() => store.dispatch({type: 'ZERO'})}>0</button>
+      <ul>
+        {store.getState().map(note => (
+          <li key={note.id}>
+            {note.content} <strong>{note.important ? 'important': ''}</strong>
+          </li>
+        ))}
+      </ul>
     </>
   )
 }
