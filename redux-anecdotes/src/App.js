@@ -1,22 +1,23 @@
 import { useSelector, useDispatch } from 'react-redux'
+import { addVote, addNote } from './actions/anecdoteCreators'
 
 const App = () => {
   const anecdotes = useSelector(state => state)
   const dispatch = useDispatch()
 
   const handleVote = (id) => {
-    dispatch({
-      type: 'ADD_VOTE',
-      data: anecdotes.find(anecdote => anecdote.id === id),
-    })
+    const target = anecdotes.find(anecdote => anecdote.id === id)
+    dispatch(addVote(target))
   }
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    dispatch({
-      type: 'ADD_NOTE',
-      data: event.target.anecdote.value
-    })
+
+    if (event.target.anecdote.value === '') {
+      return
+    }
+
+    dispatch(addNote(event.target.anecdote.value))
     event.target.anecdote.value = ''
   }
 
