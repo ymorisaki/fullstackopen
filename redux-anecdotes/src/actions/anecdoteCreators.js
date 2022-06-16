@@ -11,3 +11,9 @@ export const addNote = (text) => {
       data: text
   }
 }
+
+export const sortNote = () => {
+  return {
+    type: 'SORT_NOTE'
+  }
+}

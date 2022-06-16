@@ -39,6 +39,8 @@ const reducer = (state = initialState, action) => {
         newNote
       ]
     }
+    case 'SORT_NOTE':
+      return [...state].sort((a, b) => a.votes > b.votes ? -1 : 1)
     default:
       return state
   }
