@@ -4,7 +4,7 @@ import { addVote, sortNote } from '../actions/anecdoteCreators'
 
 const Notification = () => {
   const dispatch = useDispatch()
-  const anecdotes = useSelector(state => state)
+  const anecdotes = useSelector(state => state.notes)
   const style = {
     border: 'solid',
     padding: 10,
