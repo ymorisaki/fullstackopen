@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { addNote } from '../actions/anecdoteCreators'
+import { createNote } from '../reducers/anecdoteReducer'
 
 const Form = () => {
   const dispatch = useDispatch()
@@ -11,7 +11,7 @@ const Form = () => {
       return
     }
 
-    dispatch(addNote(event.target.anecdote.value))
+    dispatch(createNote(event.target.anecdote.value))
     event.target.anecdote.value = ''
   }
 

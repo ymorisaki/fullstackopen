@@ -1,3 +1,4 @@
+import { createSlice } from "@reduxjs/toolkit"
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -19,31 +20,29 @@ const asObject = (anecdote) => {
 
 const initialState = anecdotesAtStart.map(asObject)
 
-const notesReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case 'ADD_VOTE': {
+const noteSlice = createSlice({
+  name: 'notes',
+  initialState,
+  reducers: {
+    createNote(state, action) {
       const newNote = {
-        ...action.data,
-        votes: action.data.votes + 1,
-      }
-      return state.map(note => note.id === newNote.id ? newNote : note)
-    }
-    case 'ADD_NOTE': {
-      const newNote = {
-        content: action.data,
-        id: getId(),
+        content: action.payload,
         votes: 0,
+        id: getId()
       }
-      return [
-        ...state,
-        newNote
-      ]
-    }
-    case 'SORT_NOTE':
+      return [...state, newNote]
+    },
+    addVote(state, action) {
+      return [...state].map(note => note.id === action.payload.id ?
+      {...note, votes: note.votes + 1} :
+      note
+      )
+    },
+    sortNote(state, action) {
       return [...state].sort((a, b) => a.votes > b.votes ? -1 : 1)
-    default:
-      return state
+    },
   }
-}
+})
 
-export default notesReducer
+export const {createNote, addVote, sortNote} =noteSlice.actions
+export default noteSlice.reducer
