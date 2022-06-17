@@ -41,8 +41,16 @@ const noteSlice = createSlice({
     sortNote(state, action) {
       return [...state].sort((a, b) => a.votes > b.votes ? -1 : 1)
     },
+    showNotice(state, action) {
+      console.log(state.map(note => note))
+    }
   }
 })
 
-export const {createNote, addVote, sortNote} =noteSlice.actions
+export const {
+  createNote,
+  addVote,
+  sortNote,
+  showNotice,
+} = noteSlice.actions
 export default noteSlice.reducer
