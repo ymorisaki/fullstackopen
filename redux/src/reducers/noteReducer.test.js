@@ -1,39 +1,45 @@
 const deepFreeze = require('deep-freeze')
-const noteReducer = (state = [], action) => {
-  switch (action.type) {
-    case 'NEW_NOTE':
-      return [...state, action.data]
-    case 'TOGGLE_IMPORTANCE': {
-      const {id} = action.data
-      const noteToChange = state.find(n => n.id === id)
-      const changeNote = {
-        ...noteToChange,
-        important: !noteToChange.important
+const {createSlice} = require('@reduxjs/toolkit')
+const initialState = []
+const generateId = () => Number((Math.random() * 1000000).toFixed(0))
+
+const noteSlice = createSlice({
+  name: 'notes',
+  initialState,
+  reducers: {
+    createNote(state, action) {
+      const content = action.payload
+      state.push({
+        content,
+        important: false,
+        id: generateId()
+      })
+    },
+    toggleImportanceOf(state, action) {
+      const id = action.payload
+      const target = state.find(n => n.id === id)
+      const changedNote = {
+        ...target,
+        important: !target.important
       }
-      return state.map(note => note.id !== id ? note : changeNote)
+      return state.map(note => note.id !== id ? note : changedNote)
     }
-    default:
-      return state
   }
-}
+})
 describe('noteReducer', () => {
   test('returns new state', () => {
     const state = []
     const action = {
-      type: 'NEW_NOTE',
-      data: {
-        content: 'the app state',
-        id: 1,
-        important: true
-      }
+      type: 'notes/createNote',
+      payload: 'create slice'
     }
 
     deepFreeze(state)
 
-    const newState = noteReducer(state, action)
+    const newState = noteSlice.reducer(state, action)
 
     expect(newState).toHaveLength(1)
-    expect(newState).toContainEqual(action.data)
+    expect(newState.map(s => s.content)).toContainEqual(action.payload)
   })
 
   test('toggle important', () => {
@@ -51,15 +57,13 @@ describe('noteReducer', () => {
     ]
 
     const action = {
-      type: 'TOGGLE_IMPORTANCE',
-      data: {
-        id: 2,
-      }
+      type: 'notes/toggleImportanceOf',
+      payload: 2
     }
 
     deepFreeze(state)
 
-    const newState = noteReducer(state, action)
+    const newState = noteSlice.reducer(state, action)
 
     expect(newState).toHaveLength(2)
     expect(newState).toContainEqual(state[0])
