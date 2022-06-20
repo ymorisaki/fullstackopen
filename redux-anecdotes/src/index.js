@@ -4,10 +4,12 @@ import { Provider } from 'react-redux'
 import {configureStore} from '@reduxjs/toolkit'
 import App from './App'
 import notesReducer from './reducers/anecdoteReducer'
+import showReducer from './reducers/showReducer'
 
 const store = configureStore({
   reducer: {
-    notes: notesReducer
+    notes: notesReducer,
+    show: showReducer,
   }
 })
 

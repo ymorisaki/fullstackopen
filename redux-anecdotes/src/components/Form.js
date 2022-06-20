@@ -1,17 +1,26 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { createNote } from '../reducers/anecdoteReducer'
+import { show, hide } from '../reducers/showReducer'
 
 const Form = () => {
   const dispatch = useDispatch()
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    if (event.target.anecdote.value === '') {
+    const content = event.target.anecdote.value
+
+    if (content === '') {
       return
     }
 
-    dispatch(createNote(event.target.anecdote.value))
+    dispatch(createNote(content))
+    dispatch(show({
+      content
+    }))
+    setTimeout(() => {
+      dispatch(hide())
+    }, 3000)
     event.target.anecdote.value = ''
   }
 

@@ -41,9 +41,6 @@ const noteSlice = createSlice({
     sortNote(state, action) {
       return [...state].sort((a, b) => a.votes > b.votes ? -1 : 1)
     },
-    showNotice(state, action) {
-      console.log(state.map(note => note))
-    }
   }
 })
 

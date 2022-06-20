@@ -1,6 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { addVote, sortNote, showNotice } from '../reducers/anecdoteReducer'
+import { addVote, sortNote } from '../reducers/anecdoteReducer'
+import { show, hide } from '../reducers/showReducer'
 
 const Notification = () => {
   const dispatch = useDispatch()
@@ -14,7 +15,13 @@ const Notification = () => {
     const target = anecdotes.find(anecdote => anecdote.id === id)
     dispatch(addVote(target))
     dispatch(sortNote())
-    dispatch(showNotice())
+    dispatch(show({
+      content: target.content,
+      vote: true
+    }))
+    setTimeout(() => {
+      dispatch(hide())
+    }, 3000)
   }
 
   return (
