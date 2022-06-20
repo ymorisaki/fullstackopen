@@ -2,18 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const generateId = () => Number((Math.random() * 1000000).toFixed(0))
 
-const initialState = [
-  {
-    content: 'reducer defines how redux',
-    important: true,
-    id: 1,
-  },
-  {
-    content: 'state of store can contain any data',
-    important: false,
-    id: 2,
-  },
-]
+const initialState = []
 
 const noteSlice = createSlice({
   name: 'notes',
