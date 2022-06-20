@@ -5,11 +5,13 @@ import {configureStore} from '@reduxjs/toolkit'
 import App from './App'
 import notesReducer from './reducers/anecdoteReducer'
 import showReducer from './reducers/showReducer'
+import filterReducer from './reducers/filterReducer'
 
 const store = configureStore({
   reducer: {
     notes: notesReducer,
     show: showReducer,
+    filter: filterReducer,
   }
 })
 

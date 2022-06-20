@@ -6,6 +6,8 @@ import { show, hide } from '../reducers/showReducer'
 const Notification = () => {
   const dispatch = useDispatch()
   const anecdotes = useSelector(state => state.notes)
+  const filter = useSelector(state => state.filter)
+  const filterAnecdotes = anecdotes.filter(anecdote => anecdote.content.includes(filter))
   const style = {
     border: 'solid',
     padding: 10,
@@ -24,9 +26,9 @@ const Notification = () => {
     }, 3000)
   }
 
-  return (
-    <div style={style}>
-      {anecdotes.map(anecdote =>
+  const Anecdotes = ({target}) => (
+    <>
+      {target.map(anecdote =>
         <div key={anecdote.id}>
           <div>
             {anecdote.content}
@@ -37,6 +39,20 @@ const Notification = () => {
           </div>
         </div>
       )}
+    </>
+  )
+
+  return (
+    <div style={style}>
+      {filter === '' &&
+        <Anecdotes target={anecdotes} />
+      }
+      {filter &&
+        <Anecdotes target={filterAnecdotes} />
+      }
+      {(filter && filterAnecdotes.length === 0) &&
+        <p>No Index</p>
+      }
     </div>
   )
 }
