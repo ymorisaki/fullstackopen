@@ -2,10 +2,11 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { createNote } from '../reducers/anecdoteReducer'
 import { show, hide } from '../reducers/showReducer'
+import noteService from '../services/note'
 
 const Form = () => {
   const dispatch = useDispatch()
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
 
     const content = event.target.anecdote.value
@@ -14,7 +15,9 @@ const Form = () => {
       return
     }
 
-    dispatch(createNote(content))
+    const newNote = await noteService.createNew(content)
+
+    dispatch(createNote(newNote))
     dispatch(show({
       content
     }))

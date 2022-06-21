@@ -1,18 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-const getId = () => (100000 * Math.random()).toFixed(0)
-
 const noteSlice = createSlice({
   name: 'notes',
   initialState: [],
   reducers: {
     createNote(state, action) {
-      const newNote = {
-        content: action.payload,
-        votes: 0,
-        id: getId()
-      }
-      return [...state, newNote]
+      return [...state, action.payload]
     },
     addVote(state, action) {
       return [...state].map(note => note.id === action.payload.id ?
