@@ -1,11 +1,13 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import {Provider} from 'react-redux'
-import {configureStore} from '@reduxjs/toolkit'
+import { createRoot } from 'react-dom/client';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import App from './App';
 import noteReducer from './reducers/noteReducer';
 import filterReducer from './reducers/filterReducer';
-import App from './App'
 
+const container = document.getElementById('root');
+const root = createRoot(container);
 const store = configureStore({
   reducer: {
     notes: noteReducer,
@@ -13,16 +15,10 @@ const store = configureStore({
   }
 })
 
-const root = () => {
-  ReactDOM.createRoot(document.getElementById('root')).render (
+root.render(
   <React.StrictMode>
     <Provider store={store}>
       <App />
     </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
-  )
-}
-
-root()
-store.subscribe(root)
+  </React.StrictMode>
+);
