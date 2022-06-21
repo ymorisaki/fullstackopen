@@ -5,7 +5,7 @@ import HeadingL2 from './components/HeadingL2'
 import Notification from './components/Notification'
 import Notice from './components/Notice'
 import Filter from './components/Filter'
-import { initNote } from './reducers/anecdoteReducer'
+import { initNote, sortNote } from './reducers/anecdoteReducer'
 import noteService from './services/note'
 
 const App = () => {
@@ -16,6 +16,7 @@ const App = () => {
       const notes = await noteService.getAll()
 
       dispatch(initNote(notes))
+      dispatch(sortNote())
     })()
   })
 
