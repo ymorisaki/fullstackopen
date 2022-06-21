@@ -1,12 +1,14 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux'
-import {configureStore} from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
 import App from './App'
 import notesReducer from './reducers/anecdoteReducer'
 import showReducer from './reducers/showReducer'
 import filterReducer from './reducers/filterReducer'
 
+const container = document.getElementById('root');
+const root = createRoot(container);
 const store = configureStore({
   reducer: {
     notes: notesReducer,
@@ -15,8 +17,10 @@ const store = configureStore({
   }
 })
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <Provider store={store}>
-    <App />
-  </Provider>
-)
+root.render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </React.StrictMode>
+);
