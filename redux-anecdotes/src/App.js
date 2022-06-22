@@ -5,19 +5,14 @@ import HeadingL2 from './components/HeadingL2'
 import Notification from './components/Notification'
 import Notice from './components/Notice'
 import Filter from './components/Filter'
-import { initNote, sortNote } from './reducers/anecdoteReducer'
-import noteService from './services/note'
+import { initNotes, sortNote } from './reducers/anecdoteReducer'
 
 const App = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    (async () => {
-      const notes = await noteService.getAll()
-
-      dispatch(initNote(notes))
-      dispatch(sortNote())
-    })()
+    dispatch(initNotes())
+    dispatch(sortNote())
   })
 
   return (

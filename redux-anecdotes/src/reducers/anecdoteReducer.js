@@ -1,12 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit"
+import noteService from '../services/note'
 
 const noteSlice = createSlice({
   name: 'notes',
   initialState: [],
   reducers: {
-    createNote(state, action) {
-      return [...state, action.payload]
-    },
     addVote(state, action) {
       return [...state].map(note => note.id === action.payload.id ?
       {...note, votes: note.votes + 1} :
@@ -16,17 +14,32 @@ const noteSlice = createSlice({
     sortNote(state, action) {
       return [...state].sort((a, b) => a.votes > b.votes ? -1 : 1)
     },
-    initNote(state, action) {
+    setNotes(state, action) {
       return action.payload
     }
   }
 })
 
+export const initNotes = () => {
+  return async dispatch => {
+    const notes = await noteService.getAll()
+
+    dispatch(setNotes(notes))
+  }
+}
+
+export const createNote = (content) => {
+  return async (dispatch, getState) => {
+    const newNote = await noteService.createNew(content)
+
+    dispatch(setNotes([...getState().notes, newNote]))
+  }
+}
+
 export const {
-  createNote,
   addVote,
   sortNote,
+  setNotes,
   showNotice,
-  initNote,
 } = noteSlice.actions
 export default noteSlice.reducer
