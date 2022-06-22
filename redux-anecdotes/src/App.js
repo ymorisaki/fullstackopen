@@ -5,15 +5,14 @@ import HeadingL2 from './components/HeadingL2'
 import Notification from './components/Notification'
 import Notice from './components/Notice'
 import Filter from './components/Filter'
-import { initNotes, sortNote } from './reducers/anecdoteReducer'
+import { initNotes } from './reducers/anecdoteReducer'
 
 const App = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(initNotes())
-    dispatch(sortNote())
-  })
+  }, [dispatch])
 
   return (
     <div>

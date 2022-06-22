@@ -19,6 +19,7 @@ export const initNotes = () => {
     const notes = await noteService.getAll()
 
     dispatch(setNotes(notes))
+    dispatch(sortNote())
   }
 }
 
