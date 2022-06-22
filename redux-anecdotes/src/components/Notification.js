@@ -2,7 +2,6 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addVote, sortNote } from '../reducers/anecdoteReducer'
 import { show, hide } from '../reducers/showReducer'
-import noteService from '../services/note'
 
 const Notification = () => {
   const dispatch = useDispatch()
@@ -14,14 +13,10 @@ const Notification = () => {
     padding: 10,
     borderWidth: 1
   }
-  const handleVote = async (id) => {
+  const handleVote = (id) => {
     const target = anecdotes.find(anecdote => anecdote.id === id)
-    const updateTarget = {
-      ...target,
-      votes: target.votes + 1
-    }
-    await noteService.addVote(updateTarget, id)
-    dispatch(addVote(updateTarget))
+
+    dispatch(addVote(id, target))
     dispatch(sortNote())
     dispatch(show({
       content: target.content,

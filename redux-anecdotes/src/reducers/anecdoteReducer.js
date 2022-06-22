@@ -5,12 +5,6 @@ const noteSlice = createSlice({
   name: 'notes',
   initialState: [],
   reducers: {
-    addVote(state, action) {
-      return [...state].map(note => note.id === action.payload.id ?
-      {...note, votes: note.votes + 1} :
-      note
-      )
-    },
     sortNote(state, action) {
       return [...state].sort((a, b) => a.votes > b.votes ? -1 : 1)
     },
@@ -36,10 +30,19 @@ export const createNote = (content) => {
   }
 }
 
+export const addVote = (id, target) => {
+  return async (dispatch, getState) => {
+    const updateTarget = {...target, votes: target.votes + 1}
+
+    await noteService.addVote(updateTarget, id)
+    dispatch(setNotes(getState().notes.map(note => note.id === id ? updateTarget : note)))
+  }
+}
+
 export const {
-  addVote,
   sortNote,
   setNotes,
   showNotice,
 } = noteSlice.actions
+
 export default noteSlice.reducer
