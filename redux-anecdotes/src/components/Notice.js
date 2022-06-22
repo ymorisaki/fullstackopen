@@ -6,7 +6,7 @@ const Notice = () => {
   return (
     <>
       {show.isShow &&
-      <p>{show.isVote ? 'you voted' : 'you created'} {show.content}</p>
+      <p>{show.content}</p>
       }
     </>
   )

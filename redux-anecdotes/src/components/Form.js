@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { createNote } from '../reducers/anecdoteReducer'
-import { show, hide } from '../reducers/showReducer'
+import { toggleNotice } from '../reducers/showReducer'
 
 const Form = () => {
   const dispatch = useDispatch()
@@ -15,12 +15,7 @@ const Form = () => {
     }
 
     dispatch(createNote(content))
-    dispatch(show({
-      content
-    }))
-    setTimeout(() => {
-      dispatch(hide())
-    }, 3000)
+    dispatch(toggleNotice(`you posted ${content}`, 5))
     event.target.anecdote.value = ''
   }
 

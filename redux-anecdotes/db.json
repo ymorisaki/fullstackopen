@@ -18,7 +18,7 @@
     {
       "content": "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
       "id": "36975",
-      "votes": 3
+      "votes": 4
     },
     {
       "content": "asdf",
@@ -32,13 +32,18 @@
     },
     {
       "content": "asdfasfd",
-      "votes": 3,
+      "votes": 4,
       "id": "YG77sAN"
     },
     {
       "content": "hogehogehoge",
-      "votes": 12,
+      "votes": 13,
       "id": "PWePFor"
+    },
+    {
+      "content": "hogehogehoge",
+      "votes": 0,
+      "id": "6eFbmgd"
     }
   ]
 }
