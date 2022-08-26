@@ -1,0 +1,19 @@
+{
+  "name": "apollo-basic",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^3.10.1",
+    "graphql": "^16.6.0",
+    "nodemon": "^2.0.19",
+    "uuid": "^8.3.2"
+  }
+}
