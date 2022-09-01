@@ -1,31 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import App from './App';
-import {ApolloClient, HttpLink, InMemoryCache, gql} from '@apollo/client'
+import {ApolloClient, HttpLink, InMemoryCache, ApolloProvider} from '@apollo/client'
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: new HttpLink({
-    url: 'http://localhost:4000'
+    uri: 'http://localhost:4000'
   })
 })
 
-const query = gql`
-  query {
-    allPersons {
-      name,
-      phone,
-      address {
-        street,
-        city
-      }
-    }
-  }
-`
-
-root.render(
-  <React.StrictMode>
+ReactDOM.render(
+  <ApolloProvider client={client}>
     <App />
-  </React.StrictMode>
-);
+  </ApolloProvider>
+  ,
+document.getElementById('root'))
