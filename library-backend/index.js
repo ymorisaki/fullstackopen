@@ -92,6 +92,7 @@ const typeDefs = gql`
     name: String!
     id: ID!
     born: Int
+    bookCount: Int!
   }
 
   type Query {
@@ -134,7 +135,12 @@ const resolvers = {
         return books.filter(book => book.genres.includes(args.genre) && book.author === args.name)
       }
     },
-    allAuthors: () => authors,
+    allAuthors: () => authors.map(author => {
+      return {
+        ...author,
+        bookCount: books.filter(book => book.author === author.name).length
+      }
+    })
   },
   Mutation: {
     addBook: (root, args) => {
