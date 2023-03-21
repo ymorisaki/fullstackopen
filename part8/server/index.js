@@ -28,8 +28,8 @@ let persons = [
 
 const typeDefs = `
   type Query {
-    personCount: Int!
     allPersons(phone: YesNo): [Person!]!
+    personCount: Int!
     findPerson(name: String!): Person
   }
 
@@ -37,10 +37,9 @@ const typeDefs = `
     addPerson(
       name: String!
       phone: String
-      city: String!
       street: String!
+      city: String!
     ): Person
-
     editNumber(
       name: String!
       phone: String!
@@ -60,8 +59,8 @@ const typeDefs = `
   }
 
   type Address {
-    city: String!
     street: String!
+    city: String!
   }
 `
 
@@ -73,22 +72,19 @@ const resolvers = {
         return persons
       }
 
-      return persons.filter(p => args.phone === 'YES' ? p.phone : !p.phone)
+      return args.phone === 'YES' ? persons.filter(p => p.phone) : persons.filter(p => !p.phone)
     },
-    findPerson: (_root, args) => persons.find(p => p.name === args.name),
+    findPerson: (_root, args) => persons.find(p => p.name === args.name)
   },
   Mutation: {
     addPerson: (_root, args) => {
-      const person = {
-        name: args.name,
-        phone: args.phone,
-        city: args.city,
-        street: args.street,
+      const newPerson = {
+        ...args,
         id: uuid()
       }
 
-      if (persons.find(p => p.name === args.name)) {
-        throw new GraphQLError('名前が重複しています', {
+      if (persons.find(p => p.name === newPerson.name)) {
+        throw new GraphQLError('名前が重複しています。', {
           extensions: {
             code: 'BAD_USER_INPUT',
             invalid: args.name
@@ -96,19 +92,19 @@ const resolvers = {
         })
       }
 
-      persons.push(person)
+      persons.push(newPerson)
 
-      return person
+      return newPerson
     },
     editNumber: (_root, args) => {
-      const person = persons.find(p => p.name === args.name)
+      const target = persons.find(p => p.name === args.name)
 
-      if (!person) {
+      if (!target) {
         return null
       }
 
       const updatePerson = {
-        ...person,
+        ...target,
         phone: args.phone
       }
 
@@ -118,10 +114,10 @@ const resolvers = {
     }
   },
   Person: {
-    address: ({city, street}) => {
+    address: (root) => {
       return {
-        city,
-        street
+        street: root.street,
+        city: root.city
       }
     }
   }
@@ -133,7 +129,9 @@ const apolloServer = new ApolloServer({
 })
 
 startStandaloneServer(apolloServer, {
-  listen: {port: 4000}
+  listen: {
+    port: 4000
+  }
 }).then(({url}) => {
   console.log(url)
 })
