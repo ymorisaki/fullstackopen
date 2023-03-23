@@ -1,0 +1,6 @@
+PUT http://localhost:3001/api/notes/641bc95722ae923f976e6afa
+Content-Type: application/json
+
+{
+  "content": "Node.js"
+}
