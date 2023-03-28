@@ -1,8 +1,16 @@
 import mongoose from 'mongoose'
 
 const noteSchema = new mongoose.Schema({
-  content: String,
-  important: Boolean
+  content: {
+    type: String,
+    required: true,
+    minlength: 3
+  },
+  important: Boolean,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }
 })
 
 mongoose.set('toJSON', {
