@@ -1,27 +1,16 @@
 import mongoose from 'mongoose'
-import app from '../app'
 import supertest from 'supertest'
-
+import app from '../app'
 import Note from '../models/note'
+import helper from './test_helpers'
 
 const api = supertest(app)
 
-const initialNotes = [
-  {
-    content: 'HTML is easy',
-    important: false
-  },
-  {
-    content: 'Node.js',
-    important: true
-  }
-]
-
 beforeEach(async () => {
   await Note.deleteMany({})
-  let noteObject = new Note(initialNotes[0])
+  let noteObject = new Note(helper.initialNotes[0])
   await noteObject.save()
-  noteObject = new Note(initialNotes[1])
+  noteObject = new Note(helper.initialNotes[1])
   await noteObject.save()
 })
 
@@ -34,7 +23,7 @@ test('is json', async () => {
 test('notes.length', async () => {
   const response = await api.get('/api/notes')
 
-  expect(response.body).toHaveLength(initialNotes.length)
+  expect(response.body).toHaveLength(helper.initialNotes.length)
 })
 
 test('a valid note can be added', async () => {
@@ -50,7 +39,7 @@ test('a valid note can be added', async () => {
   const response = await api.get('/api/notes')
   const content = response.body.map((r: {content: string, important: boolean}) => r.content)
 
-  expect(response.body).toHaveLength(initialNotes.length + 1)
+  expect(response.body).toHaveLength(helper.initialNotes.length + 1)
   expect(content).toContain('a valid note can be added')
 })
 
@@ -65,7 +54,7 @@ test('note without content is not added', async () => {
 
   const response = await api.get('/api/notes')
 
-  expect(response.body).toHaveLength(initialNotes.length)
+  expect(response.body).toHaveLength(helper.initialNotes.length)
 })
 
 afterAll(async () => {
